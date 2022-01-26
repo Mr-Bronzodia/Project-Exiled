@@ -9,9 +9,9 @@ public class EnemySkillContorlerr : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            gameObject.transform.LookAt(gameObject.GetComponent<SkillVariables>().target.transform);
+            gameObject.transform.LookAt(gameObject.GetComponent<SkillVariables>().target.transform.position);
             skill.GetComponent<FireballBehaviour>().SetUp(gameObject.GetComponent<SkillVariables>());
         }
     }

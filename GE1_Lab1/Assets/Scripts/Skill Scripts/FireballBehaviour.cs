@@ -8,17 +8,28 @@ public class FireballBehaviour : MonoBehaviour
     private Vector3 castingPos;
     private bool isFirstCast = true;
     private Vector3 targetLocation;
+    private const int OFFSET = 2;
 
 
     public void SetUp(SkillVariables stats)
     {
-        GameObject skill = Instantiate(gameObject, stats.caster.transform.position, stats.caster.transform.rotation);
+        Vector3 castingOffset = stats.caster.transform.TransformDirection(Vector3.forward) * OFFSET;
+        GameObject skill = Instantiate(gameObject, stats.caster.transform.position + castingOffset, stats.caster.transform.rotation);
         skill.GetComponent<FireballBehaviour>().SetStats(stats);
     }
 
     public void SetStats(SkillVariables stats)
     {
         this.skillStatistics = stats;
+    }
+
+    public void OnHitDetected(GameObject other)
+    {
+        if (other.tag != skillStatistics.caster.tag)
+        {
+            Debug.Log("Valid Hit form " + skillStatistics.caster.name + " to " + other.name);
+        }
+        
     }
 
     void Update()
@@ -28,6 +39,10 @@ public class FireballBehaviour : MonoBehaviour
             castingPos = new Vector3(skillStatistics.caster.transform.position.x,
                                      skillStatistics.caster.transform.position.y,
                                      skillStatistics.caster.transform.position.z);
+
+            Vector3 castingOffset = skillStatistics.caster.transform.TransformDirection(Vector3.forward) * OFFSET;
+
+            castingPos += castingOffset;
             isFirstCast = false;
         }
 
@@ -38,6 +53,7 @@ public class FireballBehaviour : MonoBehaviour
 
 
         transform.position += targetLocation.normalized * 100 * Time.deltaTime;
+
         Debug.DrawRay(castingPos, targetLocation * skillStatistics.range, Color.blue); 
 
         if (Vector3.Distance(castingPos, transform.position - targetLocation * skillStatistics.range) <= skillStatistics.range * 0.15)

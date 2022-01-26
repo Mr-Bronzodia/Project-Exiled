@@ -7,7 +7,6 @@ public class ParticleHitDetection : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-
-        Debug.Log(gameObject.name);
+        gameObject.transform.parent.gameObject.GetComponent<FireballBehaviour>().OnHitDetected(other);
     }
 }
