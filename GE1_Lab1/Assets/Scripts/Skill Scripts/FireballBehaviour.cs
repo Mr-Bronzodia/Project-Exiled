@@ -24,12 +24,13 @@ public class FireballBehaviour : MonoBehaviour
     }
 
     public void OnHitDetected(GameObject other)
-    {
-        if (other.tag != skillStatistics.caster.tag)
+    { 
+        if (other.tag != skillStatistics.caster.tag & other.tag != "Wall")
         {
             Debug.Log("Valid Hit form " + skillStatistics.caster.name + " to " + other.name);
+            other.GetComponent<Character>().ApplyDamage(skillStatistics.damage);
+            Destroy(gameObject);
         }
-        
     }
 
     void Update()
@@ -52,7 +53,7 @@ public class FireballBehaviour : MonoBehaviour
                                      transform.TransformDirection(Vector3.forward).z);
 
 
-        transform.position += targetLocation.normalized * 100 * Time.deltaTime;
+        transform.position += targetLocation.normalized * skillStatistics.projectileSpeed * Time.deltaTime;
 
         Debug.DrawRay(castingPos, targetLocation * skillStatistics.range, Color.blue); 
 
