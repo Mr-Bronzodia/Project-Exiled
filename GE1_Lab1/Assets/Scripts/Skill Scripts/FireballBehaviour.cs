@@ -10,6 +10,8 @@ public class FireballBehaviour : MonoBehaviour
     private Vector3 targetLocation;
     private const int OFFSET = 2;
     private float totalSpread;
+    private Vector3 finalTarget;
+
 
 
     public void SetUp(SkillVariables stats)
@@ -33,13 +35,6 @@ public class FireballBehaviour : MonoBehaviour
             GameObject skill = Instantiate(gameObject, stats.caster.transform.position + castingOffset, stats.caster.transform.rotation);
             skill.GetComponent<FireballBehaviour>().SetStats(stats);
         }
-
-        
-
-        
-
-
-
     }
 
     public void SetStats(SkillVariables stats)
@@ -47,7 +42,7 @@ public class FireballBehaviour : MonoBehaviour
         this.skillStatistics = stats;
     }
 
-    public void OnHitDetected(GameObject other)
+    public void OnHitDetected(GameObject other, List<ParticleCollisionEvent> collisionEvent)
     { 
         if (other.tag != skillStatistics.caster.tag & other.tag != "Wall")
         {
@@ -55,7 +50,18 @@ public class FireballBehaviour : MonoBehaviour
             other.GetComponent<Character>().ApplyDamage(skillStatistics.damage);
             Destroy(gameObject);
         }
+        else if (other.tag == "Wall")
+        {
+            Debug.Log("Wall");
+            Vector3 newTarget = Vector3.Reflect(finalTarget, collisionEvent[0].normal);
+            newTarget = Vector3.ClampMagnitude(newTarget, skillStatistics.range);
+            transform.rotation = Quaternion.LookRotation(newTarget);
+            transform.position += Vector3.ClampMagnitude(newTarget, 2);
+            finalTarget = newTarget;
+            castingPos = collisionEvent[0].intersection;
+        }
     }
+
 
     void Update()
     {
@@ -67,24 +73,20 @@ public class FireballBehaviour : MonoBehaviour
 
             Vector3 castingOffset = skillStatistics.caster.transform.TransformDirection(Vector3.forward) * OFFSET;
 
-            castingPos += castingOffset;
-
-            isFirstCast = false;
-        }
-
-
-        targetLocation = new Vector3(transform.TransformDirection(Vector3.forward).x,
+            targetLocation = new Vector3(transform.TransformDirection(Vector3.forward).x,
                                      transform.TransformDirection(Vector3.forward).y,
                                      transform.TransformDirection(Vector3.forward).z);
 
+            castingPos += castingOffset;
+            finalTarget = targetLocation * skillStatistics.range;
+            isFirstCast = false;
+        }
 
+        transform.position += finalTarget.normalized * skillStatistics.projectileSpeed * Time.deltaTime;
 
+        Debug.DrawRay(castingPos, finalTarget, Color.blue);
 
-        transform.position += targetLocation.normalized * skillStatistics.projectileSpeed * Time.deltaTime;
-
-        Debug.DrawRay(castingPos, targetLocation * skillStatistics.range, Color.blue); 
-
-        if (Vector3.Distance(castingPos, transform.position - targetLocation * skillStatistics.range) <= skillStatistics.range * 0.15)
+        if (Vector3.Distance(castingPos, transform.position - finalTarget) <= skillStatistics.range * 0.15)
         {
             Destroy(gameObject);
         }
