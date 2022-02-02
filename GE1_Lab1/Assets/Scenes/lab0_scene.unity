@@ -590,6 +590,8 @@ MonoBehaviour:
   projectileSpeed: 10
   damage: 10
   cooldown: 5
+  numberOfProjectiles: 0
+  spread: 0
 --- !u!114 &393184608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2483,6 +2485,8 @@ MonoBehaviour:
   projectileSpeed: 20
   damage: 10
   cooldown: 1
+  numberOfProjectiles: 1
+  spread: 20
 --- !u!114 &1326680850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2963,7 +2967,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1627991411}
-  m_LocalRotation: {x: 0.38534173, y: 0.000000015877596, z: -0.000000006630336, w: 0.922774}
+  m_LocalRotation: {x: 0.38534173, y: -0.000000015877603, z: 0.0000000066303394, w: 0.922774}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

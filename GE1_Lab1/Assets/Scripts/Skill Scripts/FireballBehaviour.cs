@@ -9,13 +9,37 @@ public class FireballBehaviour : MonoBehaviour
     private bool isFirstCast = true;
     private Vector3 targetLocation;
     private const int OFFSET = 2;
+    private float totalSpread;
 
 
     public void SetUp(SkillVariables stats)
     {
         Vector3 castingOffset = stats.caster.transform.TransformDirection(Vector3.forward) * OFFSET;
-        GameObject skill = Instantiate(gameObject, stats.caster.transform.position + castingOffset, stats.caster.transform.rotation);
-        skill.GetComponent<FireballBehaviour>().SetStats(stats);
+
+        totalSpread = stats.spread * stats.numberOfProjectiles;
+
+        if (stats.numberOfProjectiles > 1)
+        {
+            for (int i = 1; i <= stats.numberOfProjectiles; i++)
+            {
+                GameObject skill = Instantiate(gameObject, stats.caster.transform.position + castingOffset, stats.caster.transform.rotation);
+                skill.GetComponent<FireballBehaviour>().SetStats(stats);
+
+                skill.transform.rotation *= Quaternion.Euler(0, -(totalSpread / 2) + (stats.spread * i), 0);
+            }
+        }
+        else if (stats.numberOfProjectiles == 1)
+        {
+            GameObject skill = Instantiate(gameObject, stats.caster.transform.position + castingOffset, stats.caster.transform.rotation);
+            skill.GetComponent<FireballBehaviour>().SetStats(stats);
+        }
+
+        
+
+        
+
+
+
     }
 
     public void SetStats(SkillVariables stats)
@@ -44,6 +68,7 @@ public class FireballBehaviour : MonoBehaviour
             Vector3 castingOffset = skillStatistics.caster.transform.TransformDirection(Vector3.forward) * OFFSET;
 
             castingPos += castingOffset;
+
             isFirstCast = false;
         }
 
@@ -51,6 +76,8 @@ public class FireballBehaviour : MonoBehaviour
         targetLocation = new Vector3(transform.TransformDirection(Vector3.forward).x,
                                      transform.TransformDirection(Vector3.forward).y,
                                      transform.TransformDirection(Vector3.forward).z);
+
+
 
 
         transform.position += targetLocation.normalized * skillStatistics.projectileSpeed * Time.deltaTime;
