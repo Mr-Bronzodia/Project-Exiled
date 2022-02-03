@@ -28,8 +28,6 @@ public class SkillController : MonoBehaviour
         {
             inventory[skillIndex].ActivateAbility();
             Cooldowns[skillIndex] = Time.time + gameObject.GetComponent<SkillVariables>().cooldown;
-            
-
         }
         else
         {
@@ -45,12 +43,6 @@ public class SkillController : MonoBehaviour
         {
             Cast(0);
         }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            gameObject.GetComponent<SkillVariables>().range += 10;
-        }
-
-
     }
 
 

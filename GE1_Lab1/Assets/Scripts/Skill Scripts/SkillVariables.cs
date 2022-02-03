@@ -14,4 +14,5 @@ public class SkillVariables : MonoBehaviour
     public float cooldown;
     public int numberOfProjectiles;
     public float spread;
+    public int totalBounces;
 }

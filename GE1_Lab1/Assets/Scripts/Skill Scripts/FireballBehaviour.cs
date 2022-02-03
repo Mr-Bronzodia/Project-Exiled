@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class FireballBehaviour : MonoBehaviour
 {
-    private SkillVariables skillStatistics;
+    private SkillVariables skillStats;
     private Vector3 castingPos;
     private bool isFirstCast = true;
     private Vector3 targetLocation;
     private const int OFFSET = 2;
     private float totalSpread;
     private Vector3 finalTarget;
+    private int currentBounce = 0;
 
 
 
@@ -39,27 +40,45 @@ public class FireballBehaviour : MonoBehaviour
 
     public void SetStats(SkillVariables stats)
     {
-        this.skillStatistics = stats;
+        this.skillStats = stats;
     }
 
-    public void OnHitDetected(GameObject other, List<ParticleCollisionEvent> collisionEvent)
+    public void OnHitDetected(GameObject other, List<ParticleCollisionEvent> collisionEvents)
     { 
-        if (other.tag != skillStatistics.caster.tag & other.tag != "Wall")
+        if (other.tag != skillStats.caster.tag & other.tag != "Wall")
         {
-            Debug.Log("Valid Hit form " + skillStatistics.caster.name + " to " + other.name);
-            other.GetComponent<Character>().ApplyDamage(skillStatistics.damage);
-            Destroy(gameObject);
+            Impact(other);
         }
         else if (other.tag == "Wall")
         {
-            Debug.Log("Wall");
-            Vector3 newTarget = Vector3.Reflect(finalTarget, collisionEvent[0].normal);
-            newTarget = Vector3.ClampMagnitude(newTarget, skillStatistics.range);
-            transform.rotation = Quaternion.LookRotation(newTarget);
-            transform.position += Vector3.ClampMagnitude(newTarget, 2);
-            finalTarget = newTarget;
-            castingPos = collisionEvent[0].intersection;
+            if (currentBounce < skillStats.totalBounces)
+            {
+                Bounce(collisionEvents[0]);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            
         }
+    }
+
+    private void Impact(GameObject enemy)
+    {
+        enemy.GetComponent<Character>().ApplyDamage(skillStats.damage);
+        Destroy(gameObject);
+    }
+
+
+    private void Bounce(ParticleCollisionEvent collisionEvent)
+    {
+        Vector3 newTarget = Vector3.Reflect(finalTarget, collisionEvent.normal);
+        newTarget = Vector3.ClampMagnitude(newTarget, skillStats.range);
+        transform.rotation = Quaternion.LookRotation(newTarget);
+        transform.position += Vector3.ClampMagnitude(newTarget, 2);
+        finalTarget = newTarget;
+        castingPos = collisionEvent.intersection;
+        currentBounce++;
     }
 
 
@@ -67,26 +86,26 @@ public class FireballBehaviour : MonoBehaviour
     {
         if (isFirstCast)
         {
-            castingPos = new Vector3(skillStatistics.caster.transform.position.x,
-                                     skillStatistics.caster.transform.position.y,
-                                     skillStatistics.caster.transform.position.z);
+            castingPos = new Vector3(skillStats.caster.transform.position.x,
+                                     skillStats.caster.transform.position.y,
+                                     skillStats.caster.transform.position.z);
 
-            Vector3 castingOffset = skillStatistics.caster.transform.TransformDirection(Vector3.forward) * OFFSET;
+            Vector3 castingOffset = skillStats.caster.transform.TransformDirection(Vector3.forward) * OFFSET;
 
             targetLocation = new Vector3(transform.TransformDirection(Vector3.forward).x,
                                      transform.TransformDirection(Vector3.forward).y,
                                      transform.TransformDirection(Vector3.forward).z);
 
             castingPos += castingOffset;
-            finalTarget = targetLocation * skillStatistics.range;
+            finalTarget = targetLocation * skillStats.range;
             isFirstCast = false;
         }
 
-        transform.position += finalTarget.normalized * skillStatistics.projectileSpeed * Time.deltaTime;
+        transform.position += finalTarget.normalized * skillStats.projectileSpeed * Time.deltaTime;
 
         Debug.DrawRay(castingPos, finalTarget, Color.blue);
 
-        if (Vector3.Distance(castingPos, transform.position - finalTarget) <= skillStatistics.range * 0.15)
+        if (Vector3.Distance(castingPos, transform.position - finalTarget) <= skillStats.range * 0.15)
         {
             Destroy(gameObject);
         }

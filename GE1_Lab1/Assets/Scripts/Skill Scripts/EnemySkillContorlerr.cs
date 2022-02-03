@@ -6,10 +6,12 @@ public class EnemySkillContorlerr : MonoBehaviour
 {
     public GameObject skill;
     private float nextCast;
+    private SkillVariables skillStats;
 
     private void Start()
     {
-        nextCast = Time.time + gameObject.GetComponent<SkillVariables>().cooldown;
+        skillStats = gameObject.GetComponent<SkillVariables>();
+        nextCast = Time.time + skillStats.cooldown;
     }
 
     private void Update()
@@ -17,9 +19,9 @@ public class EnemySkillContorlerr : MonoBehaviour
 
         if (Time.time > nextCast)
         {
-            gameObject.transform.LookAt(gameObject.GetComponent<SkillVariables>().target.transform.position);
-            skill.GetComponent<FireballBehaviour>().SetUp(gameObject.GetComponent<SkillVariables>());
-            nextCast = Time.time + gameObject.GetComponent<SkillVariables>().cooldown;
+            gameObject.transform.LookAt(skillStats.target.transform.position);
+            skill.GetComponent<FireballBehaviour>().SetUp(skillStats);
+            nextCast = Time.time + skillStats.cooldown;
         }
 
     }
