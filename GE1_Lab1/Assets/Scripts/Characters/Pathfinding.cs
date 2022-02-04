@@ -17,26 +17,25 @@ public class Pathfinding : MonoBehaviour
 
     void Update()
     {
-
-        Vector3 viewOffset = gameObject.transform.TransformDirection(Vector3.forward) * VIEW_OFFSET;
-        Vector3 viewVector = gameObject.transform.position + viewOffset;
-        Debug.DrawRay(gameObject.transform.position + viewOffset, target.transform.position - gameObject.transform.position - viewOffset, Color.red);
-
-        if (Physics.Linecast(gameObject.transform.position, target.transform.position - gameObject.transform.position))
+        if (target)
         {
-            agent.stoppingDistance = 0f;
-        }
-        else
-        {
-            agent.stoppingDistance = range;
-        }
+            Vector3 viewOffset = gameObject.transform.TransformDirection(Vector3.forward) * VIEW_OFFSET;
+            Vector3 viewVector = gameObject.transform.position + viewOffset;
+            Debug.DrawRay(gameObject.transform.position + viewOffset, target.transform.position - gameObject.transform.position - viewOffset, Color.red);
 
-        if (Vector3.Distance(gameObject.transform.position, target.transform.position) > range)
-        {
-            agent.SetDestination(target.transform.position);
+            if (Physics.Linecast(gameObject.transform.position, target.transform.position - gameObject.transform.position))
+            {
+                agent.stoppingDistance = 0f;
+            }
+            else
+            {
+                agent.stoppingDistance = range;
+            }
+
+            if (Vector3.Distance(gameObject.transform.position, target.transform.position) > range)
+            {
+                agent.SetDestination(target.transform.position);
+            }
         }
-
-
-        
     }
 }

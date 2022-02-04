@@ -9,10 +9,14 @@ public class Character : MonoBehaviour
     private float currentHealth;
     public GameObject UI;
 
+    private List<GameObject> nearCharacters;
+
     void Start()
     {
+        Physics.IgnoreCollision(GetComponent<SphereCollider>(), GetComponent<CharacterController>());
         currentHealth = maxHealth;
         UI.SetActive(false);
+        nearCharacters = new List<GameObject>();
     }
 
     private void UpdateUI()
@@ -23,6 +27,7 @@ public class Character : MonoBehaviour
             {
                 UI.SetActive(true);
             }
+
             UI.GetComponentInChildren<Slider>().value = currentHealth / maxHealth;
         }
     }
@@ -31,5 +36,26 @@ public class Character : MonoBehaviour
     {
         currentHealth -= damage;
         UpdateUI();
+    }
+
+    public List<GameObject> GetNearCharacters()
+    {
+        return nearCharacters;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Ally" | other.tag == "Enemy")
+        {
+            nearCharacters.Add(other.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Ally" | other.tag == "Enemy")
+        {
+            nearCharacters.Remove(other.gameObject);
+        }
     }
 }

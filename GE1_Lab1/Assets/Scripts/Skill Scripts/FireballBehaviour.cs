@@ -66,7 +66,18 @@ public class FireballBehaviour : MonoBehaviour
     private void Impact(GameObject enemy)
     {
         enemy.GetComponent<Character>().ApplyDamage(skillStats.damage);
+
+        if (skillStats.totalChains > 0)
+        {
+            Chain(enemy);
+        }
+        
         Destroy(gameObject);
+    }
+
+    private void Chain(GameObject initialEnemy)
+    {
+        Debug.Break();
     }
 
 
