@@ -17,6 +17,11 @@ public class Pathfinding : MonoBehaviour
 
     void Update()
     {
+        if (gameObject.GetComponent<SkillVariables>().target != target)
+        {
+            gameObject.GetComponent<SkillVariables>().target = target;
+        }
+
         if (target)
         {
             Vector3 viewOffset = gameObject.transform.TransformDirection(Vector3.forward) * VIEW_OFFSET;
@@ -26,6 +31,7 @@ public class Pathfinding : MonoBehaviour
             if (Physics.Linecast(gameObject.transform.position, target.transform.position - gameObject.transform.position))
             {
                 agent.stoppingDistance = 0f;
+                Debug.Log("wall");
             }
             else
             {

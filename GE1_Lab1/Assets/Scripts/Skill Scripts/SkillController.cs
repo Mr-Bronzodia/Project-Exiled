@@ -13,11 +13,14 @@ public class SkillController : MonoBehaviour
 
     private List<float> Cooldowns;
 
+    private Character characterStatistic;
+
     private void Start()
     {
         inventory = new List<InventoryManager>();
         Cooldowns = new List<float>();
         Cooldowns.Insert(0, 0);
+        characterStatistic = gameObject.GetComponent<Character>();
         inventory.Add(new InventoryManager { skill = skills[0], ActivateAbility = () => skills[0].GetComponent<FireballBehaviour>().SetUp(gameObject.GetComponent<SkillVariables>())});
     }
 
@@ -26,8 +29,12 @@ public class SkillController : MonoBehaviour
 
         if (Time.time > Cooldowns[skillIndex])
         {
-            inventory[skillIndex].ActivateAbility();
-            Cooldowns[skillIndex] = Time.time + gameObject.GetComponent<SkillVariables>().cooldown;
+            if (characterStatistic.GetMana() >= gameObject.GetComponent<SkillVariables>().manaCost)
+            {
+                inventory[skillIndex].ActivateAbility();
+                Cooldowns[skillIndex] = Time.time + gameObject.GetComponent<SkillVariables>().cooldown;
+                characterStatistic.UseMana(gameObject.GetComponent<SkillVariables>().manaCost);
+            }   
         }
         else
         {

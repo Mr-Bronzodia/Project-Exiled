@@ -77,7 +77,7 @@ public class FireballBehaviour : MonoBehaviour
 
     private void Chain(GameObject initialEnemy)
     {
-        Debug.Break();
+
     }
 
 

@@ -7,28 +7,72 @@ public class Character : MonoBehaviour
 {
     public float maxHealth;
     private float currentHealth;
-    public GameObject UI;
+    public float maxMana;
+    private float currentMana;
+    public float manaRegenAmount = 0.01f;
+    public float healRegenAmount = 0.01f;
+
+    private float timer = 0;
+
+    private const float REGEN_INTERVAL = 1;
 
     private List<GameObject> nearCharacters;
+
 
     void Start()
     {
         Physics.IgnoreCollision(GetComponent<SphereCollider>(), GetComponent<CharacterController>());
         currentHealth = maxHealth;
-        UI.SetActive(false);
+        currentMana = maxMana;
         nearCharacters = new List<GameObject>();
     }
 
     private void UpdateUI()
     {
-        if (gameObject.tag == "Enemy")
+        if (gameObject.tag == "Player")
         {
-            if (!UI.activeSelf)
-            {
-                UI.SetActive(true);
-            }
+            CharacterUI UI = gameObject.GetComponent<CharacterUI>();
 
-            UI.GetComponentInChildren<Slider>().value = currentHealth / maxHealth;
+            UI.UpdateHealth(currentHealth);
+            UI.UpdateMana(currentMana);
+        }
+        else if (gameObject.tag == "Enemy")
+        {
+            EnemyUI UI = gameObject.GetComponent<EnemyUI>();
+
+            UI.UpdateHealth(currentHealth);
+        }
+    }
+
+    private void Update()
+    {
+        if (currentMana < maxMana | currentHealth < maxHealth)
+        {
+            timer += Time.deltaTime;
+
+            if (timer <= REGEN_INTERVAL)
+            {
+                if (currentMana + manaRegenAmount > maxMana)
+                {
+                    currentMana = maxMana;
+                }
+                else
+                {
+                    currentMana += manaRegenAmount;
+                }
+
+                if (currentHealth + healRegenAmount > maxHealth)
+                {
+                    currentHealth = maxHealth;
+                }
+                else
+                {
+                    currentHealth += healRegenAmount;
+                }
+
+                timer = 0;
+                UpdateUI();
+            }
         }
     }
 
@@ -37,6 +81,27 @@ public class Character : MonoBehaviour
         currentHealth -= damage;
         UpdateUI();
     }
+
+    public float GetMana()
+    {
+        return currentMana;
+    }
+
+    public void UseMana(float cost)
+    {
+        if (currentMana - cost <= 0)
+        {
+           currentMana = 0;
+        }
+        else
+        {
+            currentMana -= cost;
+        }
+
+        UpdateUI();
+    }
+
+    
 
     public List<GameObject> GetNearCharacters()
     {

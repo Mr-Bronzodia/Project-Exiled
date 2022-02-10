@@ -16,13 +16,15 @@ public class EnemySkillContorlerr : MonoBehaviour
 
     private void Update()
     {
-
-        if (Time.time > nextCast)
+        if (skillStats.target)
         {
-            gameObject.transform.LookAt(skillStats.target.transform.position);
-            skill.GetComponent<FireballBehaviour>().SetUp(skillStats);
-            nextCast = Time.time + skillStats.cooldown;
-        }
+            if (Time.time > nextCast)
+            {
+                gameObject.transform.LookAt(skillStats.target.transform.position);
+                skill.GetComponent<FireballBehaviour>().SetUp(skillStats);
+                nextCast = Time.time + skillStats.cooldown;
+            }
 
+        }
     }
 }

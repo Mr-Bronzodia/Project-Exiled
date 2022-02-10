@@ -18,6 +18,7 @@ public class SkillVariables : MonoBehaviour
     public int totalBounces;
     public int totalChains;
     public bool isAutoTargeted;
+    public float manaCost;
 
     public void Clone(SkillVariables clone)
     {
