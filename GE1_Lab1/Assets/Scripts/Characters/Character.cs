@@ -14,7 +14,7 @@ public class Character : MonoBehaviour
 
     private float timer = 0;
 
-    private const float REGEN_INTERVAL = 1;
+    private const float REGEN_INTERVAL = 0.1f;
 
     private List<GameObject> nearCharacters;
 
@@ -46,33 +46,40 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
-        if (currentMana < maxMana | currentHealth < maxHealth)
+        timer += Time.deltaTime;
+
+        if (timer >= REGEN_INTERVAL)
         {
-            timer += Time.deltaTime;
+            Debug.Log("Regen");
+            RegenerateHealth(healRegenAmount);
+            RegenrateMana(manaRegenAmount);
+            UpdateUI();
 
-            if (timer <= REGEN_INTERVAL)
-            {
-                if (currentMana + manaRegenAmount > maxMana)
-                {
-                    currentMana = maxMana;
-                }
-                else
-                {
-                    currentMana += manaRegenAmount;
-                }
+            timer = 0;
+        }
+    }
 
-                if (currentHealth + healRegenAmount > maxHealth)
-                {
-                    currentHealth = maxHealth;
-                }
-                else
-                {
-                    currentHealth += healRegenAmount;
-                }
+    private void RegenrateMana(float amount)
+    {
+        if (currentMana + amount > maxMana)
+        {
+            currentMana = maxMana;
+        }
+        else
+        {
+            currentMana += amount;
+        }
+    }
 
-                timer = 0;
-                UpdateUI();
-            }
+    private void RegenerateHealth(float amount)
+    {
+        if (currentHealth + amount > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+        else
+        {
+            currentHealth += amount;
         }
     }
 

@@ -33,5 +33,6 @@ public class SkillVariables : MonoBehaviour
         clone.totalBounces = totalBounces;
         clone.totalChains = totalChains;
         clone.isAutoTargeted = isAutoTargeted;
+        clone.manaCost = manaCost;
     }
 }

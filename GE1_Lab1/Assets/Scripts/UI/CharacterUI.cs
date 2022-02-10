@@ -22,12 +22,10 @@ public class CharacterUI : MonoBehaviour
     public void UpdateHealth(float currentHealth)
     {
         Health.GetComponent<Image>().fillAmount = currentHealth / maxHealth;
-        Debug.Log("Health: " + currentHealth);
     }
 
     public void UpdateMana(float currentMana)
     {
         Mana.GetComponent<Image>().fillAmount = currentMana / maxMana;
-        Debug.Log("Current Mana: " + currentMana);
     }
 }

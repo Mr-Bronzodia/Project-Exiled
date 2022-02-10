@@ -665,7 +665,7 @@ MonoBehaviour:
   maxHealth: 100
   maxMana: 0
   manaRegenAmount: 1
-  healRegenAmount: 0.1
+  healRegenAmount: 1
 --- !u!135 &393184610
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2732,8 +2732,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   maxMana: 100
-  manaRegenAmount: 0.1
-  healRegenAmount: 0.1
+  manaRegenAmount: 1
+  healRegenAmount: 1
 --- !u!135 &1326680851
 SphereCollider:
   m_ObjectHideFlags: 0
