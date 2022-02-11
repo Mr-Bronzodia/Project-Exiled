@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class SkillVariables : MonoBehaviour
+public class SkillVariables
 {
 
     public int range;
@@ -20,8 +20,10 @@ public class SkillVariables : MonoBehaviour
     public bool isAutoTargeted;
     public float manaCost;
 
-    public void Clone(SkillVariables clone)
+    public SkillVariables Clone()
     {
+        SkillVariables clone = new SkillVariables();
+
         clone.range = range;
         clone.caster = caster;
         clone.target = target;
@@ -34,5 +36,7 @@ public class SkillVariables : MonoBehaviour
         clone.totalChains = totalChains;
         clone.isAutoTargeted = isAutoTargeted;
         clone.manaCost = manaCost;
+
+        return clone;
     }
 }

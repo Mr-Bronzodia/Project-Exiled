@@ -16,7 +16,7 @@ public class Character : MonoBehaviour
 
     private const float REGEN_INTERVAL = 0.1f;
 
-    private List<GameObject> nearCharacters;
+    public List<GameObject> nearCharacters;
 
 
     void Start()
@@ -50,7 +50,6 @@ public class Character : MonoBehaviour
 
         if (timer >= REGEN_INTERVAL)
         {
-            Debug.Log("Regen");
             RegenerateHealth(healRegenAmount);
             RegenrateMana(manaRegenAmount);
             UpdateUI();
@@ -117,7 +116,7 @@ public class Character : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Ally" | other.tag == "Enemy")
+        if (other.tag == "Ally" | other.tag == "Enemy" & other is SphereCollider)
         {
             nearCharacters.Add(other.gameObject);
         }
@@ -125,7 +124,7 @@ public class Character : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Ally" | other.tag == "Enemy")
+        if (other.tag == "Ally" | other.tag == "Enemy" & other is SphereCollider)
         {
             nearCharacters.Remove(other.gameObject);
         }

@@ -9,6 +9,11 @@ public class ParticleHitDetection : MonoBehaviour
     {
         List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
         GetComponent<ParticleSystem>().GetCollisionEvents(other, collisionEvents);
-        gameObject.transform.parent.gameObject.GetComponent<FireballBehaviour>().OnHitDetected(other, collisionEvents);
+
+        if (collisionEvents.Count > 0)
+        {
+            gameObject.transform.parent.gameObject.GetComponent<FireballBehaviour>().OnHitDetected(other, collisionEvents);
+        }
+        
     }
 }

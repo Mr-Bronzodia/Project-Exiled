@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FireballBehaviour : MonoBehaviour
 {
-    private SkillVariables skillStats;
+    public SkillVariables skillStats;
     private Vector3 castingPos;
     private bool isFirstCast = true;
     private Vector3 targetLocation;
@@ -17,6 +17,8 @@ public class FireballBehaviour : MonoBehaviour
 
     public void SetUp(SkillVariables stats)
     {
+        stats.caster.gameObject.GetComponent<Character>().UseMana(stats.manaCost);
+
         Vector3 castingOffset = stats.caster.transform.TransformDirection(Vector3.forward) * OFFSET;
 
         totalSpread = stats.spread * stats.numberOfProjectiles;
@@ -36,6 +38,18 @@ public class FireballBehaviour : MonoBehaviour
             GameObject skill = Instantiate(gameObject, stats.caster.transform.position + castingOffset, stats.caster.transform.rotation);
             skill.GetComponent<FireballBehaviour>().SetStats(stats);
         }
+
+    }
+
+    public void SetUpAutoTarget(SkillVariables stats, Vector3 castPos)
+    {
+        stats.caster.gameObject.GetComponent<Character>().UseMana(stats.manaCost);
+
+        Vector3 castingOffset = Vector3.ClampMagnitude(stats.target.transform.position - castingPos, 3);
+
+        GameObject skill = Instantiate(gameObject, castPos + castingOffset, Quaternion.identity);
+        skill.GetComponent<FireballBehaviour>().SetStats(stats);
+        Debug.DrawRay(castPos + castingOffset, stats.target.transform.position);
     }
 
     public void SetStats(SkillVariables stats)
@@ -43,11 +57,26 @@ public class FireballBehaviour : MonoBehaviour
         this.skillStats = stats;
     }
 
+    public SkillVariables GetStats()
+    {
+        return skillStats;
+    }
+
     public void OnHitDetected(GameObject other, List<ParticleCollisionEvent> collisionEvents)
     { 
         if (other.tag != skillStats.caster.tag & other.tag != "Wall")
         {
-            Impact(other);
+            if (skillStats.isAutoTargeted)
+            {
+                if (other == skillStats.target)
+                {
+                    Impact(other);
+                } 
+            }
+            else
+            {
+                Impact(other);
+            }
         }
         else if (other.tag == "Wall")
         {
@@ -71,13 +100,38 @@ public class FireballBehaviour : MonoBehaviour
         {
             Chain(enemy);
         }
-        
+
         Destroy(gameObject);
     }
 
     private void Chain(GameObject initialEnemy)
     {
+        List<GameObject> chainTargests = new List<GameObject>();
 
+        foreach (GameObject character in initialEnemy.GetComponent<Character>().GetNearCharacters())
+        {
+            if (character.tag == initialEnemy.tag)
+            {
+                chainTargests.Add(character);
+            }
+        }
+
+        for (int i = 0; i <= skillStats.totalChains - 1; i++)
+        {
+
+            if (i < chainTargests.Count)
+            {
+                SkillVariables clone = skillStats.Clone();
+
+                clone.target = chainTargests[i];
+                clone.totalChains = 0;
+                clone.numberOfProjectiles = 1;
+                clone.totalBounces = 0;
+                clone.isAutoTargeted = true;
+
+                SetUpAutoTarget(clone, initialEnemy.transform.position);
+            }
+        }
     }
 
 
@@ -95,30 +149,42 @@ public class FireballBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (isFirstCast)
+        if (!skillStats.isAutoTargeted)
         {
-            castingPos = new Vector3(skillStats.caster.transform.position.x,
-                                     skillStats.caster.transform.position.y,
-                                     skillStats.caster.transform.position.z);
+            if (isFirstCast)
+            {
+                castingPos = new Vector3(skillStats.caster.transform.position.x,
+                                         skillStats.caster.transform.position.y,
+                                         skillStats.caster.transform.position.z);
 
-            Vector3 castingOffset = skillStats.caster.transform.TransformDirection(Vector3.forward) * OFFSET;
+                Vector3 castingOffset = skillStats.caster.transform.TransformDirection(Vector3.forward) * OFFSET;
 
-            targetLocation = new Vector3(transform.TransformDirection(Vector3.forward).x,
-                                     transform.TransformDirection(Vector3.forward).y,
-                                     transform.TransformDirection(Vector3.forward).z);
+                targetLocation = new Vector3(transform.TransformDirection(Vector3.forward).x,
+                                         transform.TransformDirection(Vector3.forward).y,
+                                         transform.TransformDirection(Vector3.forward).z);
 
-            castingPos += castingOffset;
-            finalTarget = targetLocation * skillStats.range;
-            isFirstCast = false;
+                castingPos += castingOffset;
+                finalTarget = targetLocation * skillStats.range;
+                isFirstCast = false;
+            }
+
+            transform.position += finalTarget.normalized * skillStats.projectileSpeed * Time.deltaTime;
+
+            Debug.DrawRay(castingPos, finalTarget, Color.blue);
+
+            if (Vector3.Distance(castingPos, transform.position - finalTarget) <= skillStats.range * 0.15)
+            {
+                Destroy(gameObject);
+            }
         }
-
-        transform.position += finalTarget.normalized * skillStats.projectileSpeed * Time.deltaTime;
-
-        Debug.DrawRay(castingPos, finalTarget, Color.blue);
-
-        if (Vector3.Distance(castingPos, transform.position - finalTarget) <= skillStats.range * 0.15)
+        else
         {
-            Destroy(gameObject);
+            if (isFirstCast)
+            {
+                transform.rotation = Quaternion.LookRotation(skillStats.target.transform.position - gameObject.transform.position);
+                isFirstCast = false;
+            }
+            transform.position = Vector3.MoveTowards(gameObject.transform.position, skillStats.target.transform.position, skillStats.projectileSpeed * Time.deltaTime);
         }
     }
 }

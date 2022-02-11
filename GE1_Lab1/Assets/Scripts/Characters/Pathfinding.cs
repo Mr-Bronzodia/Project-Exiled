@@ -9,17 +9,19 @@ public class Pathfinding : MonoBehaviour
     private NavMeshAgent agent;
     private float range = 10f;
     private const float VIEW_OFFSET = 1f;
+    public bool targetInRange = false;
 
     private void Start()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
     }
 
+
     void Update()
     {
-        if (gameObject.GetComponent<SkillVariables>().target != target)
+        if (gameObject.GetComponent<EnemySkillContorlerr>().skillStats.target != target)
         {
-            gameObject.GetComponent<SkillVariables>().target = target;
+            gameObject.GetComponent<EnemySkillContorlerr>().skillStats.target = target;
         }
 
         if (target)
@@ -31,7 +33,6 @@ public class Pathfinding : MonoBehaviour
             if (Physics.Linecast(gameObject.transform.position, target.transform.position - gameObject.transform.position))
             {
                 agent.stoppingDistance = 0f;
-                Debug.Log("wall");
             }
             else
             {
@@ -41,6 +42,11 @@ public class Pathfinding : MonoBehaviour
             if (Vector3.Distance(gameObject.transform.position, target.transform.position) > range)
             {
                 agent.SetDestination(target.transform.position);
+                targetInRange = false;
+            }
+            else
+            {
+                targetInRange = true;
             }
         }
     }
