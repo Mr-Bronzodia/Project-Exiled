@@ -19,13 +19,13 @@ public class Pathfinding : MonoBehaviour
 
     void Update()
     {
-        if (gameObject.GetComponent<EnemySkillContorlerr>().skillStats.target != target)
-        {
-            gameObject.GetComponent<EnemySkillContorlerr>().skillStats.target = target;
-        }
-
         if (target)
         {
+            if (gameObject.GetComponent<NPCSkillManager>().inventory[0].stats.target != target)
+            {
+                gameObject.GetComponent<NPCSkillManager>().inventory[0].stats.target = target;
+            }
+
             Vector3 viewOffset = gameObject.transform.TransformDirection(Vector3.forward) * VIEW_OFFSET;
             Vector3 viewVector = gameObject.transform.position + viewOffset;
             Debug.DrawRay(gameObject.transform.position + viewOffset, target.transform.position - gameObject.transform.position - viewOffset, Color.red);

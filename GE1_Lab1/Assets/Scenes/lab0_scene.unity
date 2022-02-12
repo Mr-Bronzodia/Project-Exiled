@@ -782,7 +782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e6bfc854177a0428e9c83fa8956cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1326680844}
+  target: {fileID: 0}
   targetInRange: 0
 --- !u!195 &393184604
 NavMeshAgent:
@@ -850,20 +850,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb9199b52f21df48a64a3d887272782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skill: {fileID: 2287459146239035337, guid: 3497f0cc91bfa854bb51b14bea1a8835, type: 3}
-  skillStats:
-    range: 0
-    caster: {fileID: 0}
-    target: {fileID: 0}
-    projectileSpeed: 0
-    damage: 0
-    cooldown: 0
-    numberOfProjectiles: 0
-    spread: 0
-    totalBounces: 0
-    totalChains: 0
-    isAutoTargeted: 0
-    manaCost: 0
+  skills:
+  - {fileID: 2287459146239035337, guid: 3497f0cc91bfa854bb51b14bea1a8835, type: 3}
+  inventory: []
 --- !u!114 &393184609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1922,7 +1911,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.36849326, y: 0.000000016010791, z: -0.000000006334172, w: 0.92963046}
+  m_LocalRotation: {x: 0.36849326, y: 0.00000001601087, z: -0.0000000063343744, w: 0.92963046}
   m_LocalPosition: {x: -1.7, y: 29.550001, z: -48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2771,20 +2760,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb9199b52f21df48a64a3d887272782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skill: {fileID: 2287459146239035337, guid: 3497f0cc91bfa854bb51b14bea1a8835, type: 3}
-  skillStats:
-    range: 0
-    caster: {fileID: 0}
-    target: {fileID: 0}
-    projectileSpeed: 0
-    damage: 0
-    cooldown: 0
-    numberOfProjectiles: 0
-    spread: 0
-    totalBounces: 0
-    totalChains: 0
-    isAutoTargeted: 0
-    manaCost: 0
+  skills:
+  - {fileID: 2287459146239035337, guid: 3497f0cc91bfa854bb51b14bea1a8835, type: 3}
+  inventory: []
 --- !u!136 &1172118274
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2842,7 +2820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e6bfc854177a0428e9c83fa8956cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1326680844}
+  target: {fileID: 0}
   targetInRange: 0
 --- !u!195 &1172118278
 NavMeshAgent:
@@ -3521,7 +3499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skills:
   - {fileID: 2287459146239035337, guid: 3497f0cc91bfa854bb51b14bea1a8835, type: 3}
-  skillStatistic: []
+  inventory: []
 --- !u!114 &1326680850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4393,7 +4371,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1640795250}
-  m_LocalRotation: {x: 0.3515677, y: -0.000000016107967, z: 0.000000006049208, w: 0.9361625}
+  m_LocalRotation: {x: 0.3515677, y: 0.00000001610797, z: -0.0000000060492087, w: 0.9361625}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -4604,20 +4582,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb9199b52f21df48a64a3d887272782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skill: {fileID: 2287459146239035337, guid: 3497f0cc91bfa854bb51b14bea1a8835, type: 3}
-  skillStats:
-    range: 0
-    caster: {fileID: 0}
-    target: {fileID: 0}
-    projectileSpeed: 0
-    damage: 0
-    cooldown: 0
-    numberOfProjectiles: 0
-    spread: 0
-    totalBounces: 0
-    totalChains: 0
-    isAutoTargeted: 0
-    manaCost: 0
+  skills:
+  - {fileID: 2287459146239035337, guid: 3497f0cc91bfa854bb51b14bea1a8835, type: 3}
+  inventory: []
 --- !u!136 &1680469450
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4675,7 +4642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e6bfc854177a0428e9c83fa8956cf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1326680844}
+  target: {fileID: 0}
   targetInRange: 0
 --- !u!195 &1680469454
 NavMeshAgent:

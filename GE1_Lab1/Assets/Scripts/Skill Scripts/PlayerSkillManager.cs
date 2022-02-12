@@ -9,50 +9,54 @@ public class PlayerSkillManager : MonoBehaviour
 
     public List<GameObject> skills;
 
-    private List<InventoryManager> inventory;
+    public List<InventoryManager> inventory;
 
     private Character characterStatistic;
 
-    public List<SkillVariables> skillStatistic;
 
     private void Start()
     {
         inventory = new List<InventoryManager>();
-        skillStatistic = new List<SkillVariables>();
 
-        SkillVariables firebalStats = new SkillVariables 
-        {
-            range = 10, 
-            caster = gameObject, 
-            target = null, 
-            projectileSpeed = 20, 
-            damage = 10, 
-            cooldown = 3, 
-            numberOfProjectiles = 1, 
-            spread = 5, 
-            totalBounces = 2, 
-            totalChains = 2, 
-            isAutoTargeted = false, 
-            manaCost = 10 
-        };
+        SkillVariables fireballStats = skills[0].GetComponent<Fireball>().baseStats.Clone();
 
-        skillStatistic.Add(firebalStats);
+        fireballStats.caster = gameObject;
+
+        InventoryManager fireball = new InventoryManager { skill = skills[0], stats = fireballStats, ActivateAbility = () => skills[0].GetComponent<Fireball>().SetUp(fireballStats), nextCast = 0f };
+        inventory.Add(fireball);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            skills[0].GetComponent<FireballBehaviour>().SetUp(skillStatistic[0]);
+            if (inventory[0].CanCast())
+            {
+                inventory[0].ActivateAbility();
+            }
         }
     }
 
-
+    [Serializable]
     public class InventoryManager
     {
         public GameObject skill;
         public SkillVariables stats;
         public Action ActivateAbility;
+        public float nextCast;
+
+        public bool CanCast()
+        {
+            if (Time.time > nextCast)
+            {
+                nextCast = Time.time + stats.cooldown;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
 

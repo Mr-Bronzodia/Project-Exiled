@@ -12,7 +12,7 @@ public class ParticleHitDetection : MonoBehaviour
 
         if (collisionEvents.Count > 0)
         {
-            gameObject.transform.parent.gameObject.GetComponent<FireballBehaviour>().OnHitDetected(other, collisionEvents);
+            gameObject.transform.parent.gameObject.GetComponent<Fireball>().OnHitDetected(other, collisionEvents);
         }
         
     }

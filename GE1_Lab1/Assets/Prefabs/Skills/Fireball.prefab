@@ -4850,6 +4850,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1efcc54d99266a14abad8460779f1d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseStats:
+    range: 10
+    caster: {fileID: 0}
+    target: {fileID: 0}
+    projectileSpeed: 20
+    damage: 10
+    cooldown: 3
+    numberOfProjectiles: 1
+    spread: 20
+    totalBounces: 0
+    totalChains: 0
+    isAutoTargeted: 0
+    manaCost: 10
 --- !u!1 &2287459146245232035
 GameObject:
   m_ObjectHideFlags: 0
