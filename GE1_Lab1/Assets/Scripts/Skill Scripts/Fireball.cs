@@ -46,11 +46,10 @@ public class Fireball : MonoBehaviour
     {
         stats.caster.gameObject.GetComponent<Character>().UseMana(stats.manaCost);
 
-        Vector3 castingOffset = Vector3.ClampMagnitude(stats.target.transform.position - castingPos, 3);
+        Vector3 castingOffset = Vector3.ClampMagnitude(stats.target.transform.position - castingPos, OFFSET);
 
         GameObject skill = Instantiate(gameObject, castPos + castingOffset, Quaternion.identity);
         skill.GetComponent<Fireball>().SetStats(stats);
-        Debug.DrawRay(castPos + castingOffset, stats.target.transform.position);
     }
 
     public void SetStats(SkillVariables stats)

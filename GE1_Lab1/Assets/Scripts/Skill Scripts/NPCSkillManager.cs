@@ -17,7 +17,7 @@ public class NPCSkillManager : MonoBehaviour
 
         fireballStats.caster = gameObject;
 
-        InventoryManager fireball = new InventoryManager { skill = skills[0], stats = fireballStats, ActivateAbility = () => skills[0].GetComponent<Fireball>().SetUp(fireballStats), nextCast = Time.time };
+        InventoryManager fireball = new InventoryManager { skill = skills[0], stats = fireballStats, ActivateAbility = () => skills[0].GetComponent<Fireball>().SetUp(fireballStats), nextCast = 0 };
         inventory.Add(fireball);
 
     }
@@ -30,6 +30,7 @@ public class NPCSkillManager : MonoBehaviour
             {
                 gameObject.transform.LookAt(inventory[0].stats.target.transform.position);
                 inventory[0].ActivateAbility();
+                inventory[0].nextCast = Time.time + inventory[0].stats.cooldown;
             }
 
         }
