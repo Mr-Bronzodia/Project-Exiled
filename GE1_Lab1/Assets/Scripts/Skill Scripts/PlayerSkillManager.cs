@@ -23,12 +23,14 @@ public class PlayerSkillManager : MonoBehaviour
         UI = gameObject.GetComponent<CharacterUI>();
 
         SkillVariables fireballStats = skills[0].GetComponent<Fireball>().baseStats.Clone();
-
-        fireballStats.caster = gameObject;
-
-        InventoryManager fireball = new InventoryManager { skill = skills[0], stats = fireballStats, ActivateAbility = () => skills[0].GetComponent<Fireball>().SetUp(fireballStats), nextCast = 0f };
+        InventoryManager fireball = new InventoryManager { skill = skills[0], stats = fireballStats, ActiveAbility = () => skills[0].GetComponent<Fireball>().SetUp(fireballStats), nextCast = 0f };
         
         inventory.Add(fireball);
+
+        SkillVariables dashStatistic = skills[1].GetComponent<Dash>().baseStats.Clone();
+        InventoryManager dash = new InventoryManager { skill = skills[1], stats = dashStatistic, ActiveAbility = () => skills[1].GetComponent<Dash>().SetUp(dashStatistic), nextCast = 0f };
+
+        inventory.Add(dash);
     }
 
     private void Update()
@@ -39,8 +41,14 @@ public class PlayerSkillManager : MonoBehaviour
         {
             if (inventory[0].CanCast())
             {
-                inventory[0].ActivateAbility();
-                inventory[0].nextCast = Time.time + inventory[0].stats.cooldown;
+                inventory[0].Use(gameObject);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (inventory[1].CanCast())
+            {
+                inventory[1].Use(gameObject);
             }
         }
     }
@@ -50,8 +58,15 @@ public class PlayerSkillManager : MonoBehaviour
     {
         public GameObject skill;
         public SkillVariables stats;
-        public Action ActivateAbility;
+        public Action ActiveAbility;
         public float nextCast;
+
+        public void Use(GameObject user)
+        {
+            stats.caster = user;
+            ActiveAbility();
+            nextCast = Time.time + stats.cooldown;
+        }
 
         public bool CanCast()
         {
