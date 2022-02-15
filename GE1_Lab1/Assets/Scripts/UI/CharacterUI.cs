@@ -31,7 +31,6 @@ public class CharacterUI : MonoBehaviour
             {
                 GameObject mask = SkillSlots[i].transform.GetChild(0).gameObject;
                 mask.GetComponent<Image>().fillAmount = -1 * ((((Time.time - skills[i].nextCast) / skills[i].stats.cooldown) + 1) - 1);
-                Debug.Log("updating");
             }
         }
     }

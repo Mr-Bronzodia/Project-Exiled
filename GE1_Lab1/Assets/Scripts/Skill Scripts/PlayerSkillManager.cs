@@ -22,15 +22,11 @@ public class PlayerSkillManager : MonoBehaviour
 
         UI = gameObject.GetComponent<CharacterUI>();
 
-        SkillVariables fireballStats = skills[0].GetComponent<Fireball>().baseStats.Clone();
-        InventoryManager fireball = new InventoryManager { skill = skills[0], stats = fireballStats, ActiveAbility = () => skills[0].GetComponent<Fireball>().SetUp(fireballStats), nextCast = 0f };
-        
-        inventory.Add(fireball);
-
-        SkillVariables dashStatistic = skills[1].GetComponent<Dash>().baseStats.Clone();
-        InventoryManager dash = new InventoryManager { skill = skills[1], stats = dashStatistic, ActiveAbility = () => skills[1].GetComponent<Dash>().SetUp(dashStatistic), nextCast = 0f };
-
-        inventory.Add(dash);
+        for (int i = 0; i < skills.Count; i++)
+        {
+            InventoryManager skill = new InventoryManager().RegisterSkill(skills[i]);
+            inventory.Add(skill);
+        }
     }
 
     private void Update()
@@ -60,6 +56,33 @@ public class PlayerSkillManager : MonoBehaviour
         public SkillVariables stats;
         public Action ActiveAbility;
         public float nextCast;
+
+        public InventoryManager RegisterSkill(GameObject skill)
+        {
+            this.skill = skill;
+
+            if (skill.name == "Fireball")
+            {
+                stats = skill.GetComponent<Fireball>().baseStats.Clone();
+                ActiveAbility = () => skill.GetComponent<Fireball>().SetUp(stats);
+                nextCast = 0f;
+
+                return this;
+            }
+            else if (skill.name == "Dash")
+            {
+                stats = skill.GetComponent<Dash>().baseStats.Clone();
+                ActiveAbility = () => skill.GetComponent<Dash>().SetUp(stats);
+                nextCast = 0f;
+
+                return this;
+            }
+            else
+            {
+                Debug.LogError("Unable to assign: " + skill.name);
+                return null;
+            }
+        }
 
         public void Use(GameObject user)
         {

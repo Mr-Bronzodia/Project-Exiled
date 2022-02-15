@@ -12,23 +12,24 @@ public class Dash : MonoBehaviour
 
         skill.GetComponent<Dash>().baseStats = stats;
         skill.GetComponent<Dash>().ActivateDash();
-
-        Destroy(skill);
     }
 
   private void ActivateDash()
     {
         RaycastHit ray;
         Physics.Raycast(baseStats.caster.transform.position, baseStats.caster.transform.TransformDirection(Vector3.forward) * baseStats.range, out ray, baseStats.range);
+        
+        CharacterController movmentControler = baseStats.caster.GetComponent<CharacterController>();
 
         if (ray.collider == null)
         {
-            baseStats.caster.transform.position += baseStats.caster.transform.TransformDirection(Vector3.forward) * baseStats.range;
+            movmentControler.Move(baseStats.caster.transform.TransformDirection(Vector3.forward) * baseStats.range);
         }
         else
         {
-            baseStats.caster.transform.position += baseStats.caster.transform.TransformDirection(Vector3.forward) * (ray.distance * 0.9f);
+            movmentControler.Move(baseStats.caster.transform.TransformDirection(Vector3.forward) * (ray.distance * 0.9f));
         }
-        
+
+        Destroy(gameObject);
     }
 }

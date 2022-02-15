@@ -10,13 +10,13 @@ public class NPCSkillManager : MonoBehaviour
 
     private void Start()
     {
-
         inventory = new List<InventoryManager>();
 
-        SkillVariables fireballStats = skills[0].GetComponent<Fireball>().baseStats.Clone();
-        InventoryManager fireball = new InventoryManager { skill = skills[0], stats = fireballStats, ActiveAbility = () => skills[0].GetComponent<Fireball>().SetUp(fireballStats), nextCast = 0 };
-        inventory.Add(fireball);
-
+        for (int i = 0; i < skills.Count; i++)
+        {
+            InventoryManager skill = new InventoryManager().RegisterSkill(skills[i]);
+            inventory.Add(skill);
+        }
     }
 
     private void Update()
