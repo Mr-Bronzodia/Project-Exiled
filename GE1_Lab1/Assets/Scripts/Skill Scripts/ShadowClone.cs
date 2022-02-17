@@ -6,7 +6,9 @@ public class ShadowClone : MonoBehaviour
 {
     public GameObject prefab;
     public SkillVariables baseStats;
+    private bool isFirstUpdate = true;
 
+    private List<GameObject> clones;
 
     public void SetUp(SkillVariables stats)
     {
@@ -15,13 +17,33 @@ public class ShadowClone : MonoBehaviour
         skill.GetComponent<ShadowClone>().baseStats = stats;
         skill.GetComponent<ShadowClone>().Spawn();
 
-        Destroy(skill);
     }
 
     public void Spawn()
     {
-        GameObject clone = Instantiate(prefab, baseStats.caster.transform.position, baseStats.caster.transform.rotation);
+        clones = new List<GameObject>();
 
-        clone.GetComponent<Pathfinding>().SetCommander(baseStats.caster);
+        for (int i = 0; i < baseStats.quantityMultiplier; i++)
+        {
+            GameObject clone = Instantiate(prefab, baseStats.caster.transform.position, baseStats.caster.transform.rotation);
+            clone.GetComponent<Pathfinding>().SetCommander(baseStats.caster);
+
+            clones.Add(clone);
+        }
     }
+
+    private void Update()
+    {
+        if (isFirstUpdate)
+        {
+            isFirstUpdate = false;
+            foreach (GameObject clone in clones)
+            {
+                clone.GetComponent<NPCSkillManager>().inventory[0].stats = baseStats.caster.GetComponent<PlayerSkillManager>().inventory[0].stats.Clone();
+            }
+
+            Destroy(gameObject);
+        }
+    }
+
 }
