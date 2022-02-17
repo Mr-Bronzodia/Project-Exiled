@@ -17,9 +17,12 @@ public class MovementControler : MonoBehaviour
         // Orientate player toward the mouse
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
         Vector3 mouseInput = new Vector3(horizontal, 0f, vertical);
+
         var mouseVelocity = mouseInput;
+
         Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+
         float rayLenght;
 
         if (groundPlane.Raycast(mouseRay, out rayLenght))

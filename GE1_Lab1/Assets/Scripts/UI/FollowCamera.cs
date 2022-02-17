@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class FollowCamera : MonoBehaviour
 {
-    public GameObject mainCamera;
+    private GameObject mainCamera;
+
+    private void Start()
+    {
+        mainCamera = GameObject.Find("Main Camera");
+    }
 
     void Update()
     {

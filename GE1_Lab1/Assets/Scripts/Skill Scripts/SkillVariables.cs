@@ -10,10 +10,10 @@ public class SkillVariables
     public int range;
     public GameObject caster;
     public GameObject target;
-    public float projectileSpeed;
+    public float speed;
     public float damage;
     public float cooldown;
-    public int numberOfProjectiles;
+    public int quantityMultiplier;
     public float spread;
     public int totalBounces;
     public int totalChains;
@@ -27,10 +27,10 @@ public class SkillVariables
         clone.range = range;
         clone.caster = caster;
         clone.target = target;
-        clone.projectileSpeed = projectileSpeed;
+        clone.speed = speed;
         clone.damage = damage;
         clone.cooldown = cooldown;
-        clone.numberOfProjectiles = numberOfProjectiles;
+        clone.quantityMultiplier = quantityMultiplier;
         clone.spread = spread;
         clone.totalBounces = totalBounces;
         clone.totalChains = totalChains;

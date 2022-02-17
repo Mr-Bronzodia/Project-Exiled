@@ -47,6 +47,13 @@ public class PlayerSkillManager : MonoBehaviour
                 inventory[1].Use(gameObject);
             }
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (inventory[2].CanCast())
+            {
+                inventory[2].Use(gameObject);
+            }
+        }
     }
 
     [Serializable]
@@ -73,6 +80,14 @@ public class PlayerSkillManager : MonoBehaviour
             {
                 stats = skill.GetComponent<Dash>().baseStats.Clone();
                 ActiveAbility = () => skill.GetComponent<Dash>().SetUp(stats);
+                nextCast = 0f;
+
+                return this;
+            }
+            else if (skill.name == "Shadow Clone")
+            {
+                stats = skill.GetComponent<ShadowClone>().baseStats.Clone();
+                ActiveAbility = () => skill.GetComponent<ShadowClone>().SetUp(stats);
                 nextCast = 0f;
 
                 return this;

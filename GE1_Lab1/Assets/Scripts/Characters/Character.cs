@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,8 @@ public class Character : MonoBehaviour
 
     public List<GameObject> nearCharacters;
 
+    public TagManager tagManager;
+
 
     void Start()
     {
@@ -25,6 +28,7 @@ public class Character : MonoBehaviour
         currentHealth = maxHealth;
         currentMana = maxMana;
         nearCharacters = new List<GameObject>();
+        tagManager = new TagManager(gameObject.tag);
     }
 
     private void UpdateUI()
@@ -36,7 +40,7 @@ public class Character : MonoBehaviour
             UI.UpdateHealth(currentHealth);
             UI.UpdateMana(currentMana);
         }
-        else if (gameObject.tag == "Enemy")
+        else if (gameObject.tag == "Enemy" | gameObject.tag == "Ally")
         {
             EnemyUI UI = gameObject.GetComponent<EnemyUI>();
 
@@ -85,7 +89,23 @@ public class Character : MonoBehaviour
     public void ApplyDamage(float damage)
     {
         currentHealth -= damage;
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+
         UpdateUI();
+    }
+
+    private void Die()
+    {
+        foreach (GameObject nearChar in nearCharacters)
+        {
+            nearChar.GetComponent<Character>().nearCharacters.Remove(gameObject);
+        }
+
+        Destroy(gameObject);
     }
 
     public float GetMana()
@@ -107,26 +127,112 @@ public class Character : MonoBehaviour
         UpdateUI();
     }
 
-    
-
     public List<GameObject> GetNearCharacters()
     {
         return nearCharacters;
     }
 
+    public List<GameObject> GetNearFriendlies()
+    {
+        List<GameObject> friendlies = new List<GameObject>();
+
+        foreach (GameObject character in nearCharacters)
+        {
+            if (tagManager.isFriendly(character.tag))
+            {
+                friendlies.Add(character);
+            }
+        }
+        return friendlies;
+    }
+
+    public List<GameObject> GetNearEnemies()
+    {
+        List<GameObject> enemies = new List<GameObject>();
+
+        foreach (GameObject character in nearCharacters)
+        {
+            if (tagManager.isHostile(character.tag))
+            {
+                enemies.Add(character);
+            }
+        }
+        return enemies;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Ally" | other.tag == "Enemy" & other is SphereCollider)
+        if (TagManager.isCharacter(other.tag) & other is CharacterController)
         {
-            nearCharacters.Add(other.gameObject);
+            if (!nearCharacters.Contains(other.gameObject))
+            {
+                nearCharacters.Add(other.gameObject);
+            } 
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Ally" | other.tag == "Enemy" & other is SphereCollider)
+        if (TagManager.isCharacter(other.tag) & other is CharacterController)
         {
             nearCharacters.Remove(other.gameObject);
         }
+    }
+
+    public class TagManager
+    {
+        private string selfTag;
+
+        public TagManager(string selfTag)
+        {
+            this.selfTag = selfTag;
+        }
+
+        private static Dictionary<string, List<string>> friendlyTags = new Dictionary<string, List<string>>()
+        {
+            {"Player", new List<string>() { "Ally", "Player" } },
+            {"Ally",  new List<string>() { "Ally", "Player" } },
+            {"Enemy",  new List<string>() { "Enemy" } }
+
+        };
+
+        private static List<string> characterEntity = new List<string>() { "Player", "Ally", "Enemy" };
+
+        public bool isFriendly(string tag)
+        {
+            if (friendlyTags[selfTag].Contains(tag))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool isHostile(string tag)
+        {
+            if (!friendlyTags[selfTag].Contains(tag))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool isCharacter(string tag)
+        {
+            if (characterEntity.Contains(tag))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

@@ -22,11 +22,11 @@ public class Fireball : MonoBehaviour
 
         Vector3 castingOffset = stats.caster.transform.TransformDirection(Vector3.forward) * OFFSET;
 
-        totalSpread = stats.spread * stats.numberOfProjectiles;
+        totalSpread = stats.spread * stats.quantityMultiplier;
 
-        if (stats.numberOfProjectiles > 1)
+        if (stats.quantityMultiplier > 1)
         {
-            for (int i = 1; i <= stats.numberOfProjectiles; i++)
+            for (int i = 1; i <= stats.quantityMultiplier; i++)
             {
                 GameObject skill = Instantiate(gameObject, stats.caster.transform.position + castingOffset, stats.caster.transform.rotation);
                 skill.GetComponent<Fireball>().SetStats(stats);
@@ -34,7 +34,7 @@ public class Fireball : MonoBehaviour
                 skill.transform.rotation *= Quaternion.Euler(0, -(totalSpread / 2) + (stats.spread * i), 0);
             }
         }
-        else if (stats.numberOfProjectiles == 1)
+        else if (stats.quantityMultiplier == 1)
         {
             GameObject skill = Instantiate(gameObject, stats.caster.transform.position + castingOffset, stats.caster.transform.rotation);
             skill.GetComponent<Fireball>().SetStats(stats);
@@ -64,7 +64,7 @@ public class Fireball : MonoBehaviour
 
     public void OnHitDetected(GameObject other, List<ParticleCollisionEvent> collisionEvents)
     { 
-        if (other.tag != baseStats.caster.tag & other.tag != "Wall")
+        if (baseStats.caster.GetComponent<Character>().tagManager.isHostile(other.tag) & other.tag != "Wall")
         {
             if (baseStats.isAutoTargeted)
             {
@@ -106,15 +106,7 @@ public class Fireball : MonoBehaviour
 
     private void Chain(GameObject initialEnemy)
     {
-        List<GameObject> chainTargests = new List<GameObject>();
-
-        foreach (GameObject character in initialEnemy.GetComponent<Character>().GetNearCharacters())
-        {
-            if (character.tag == initialEnemy.tag)
-            {
-                chainTargests.Add(character);
-            }
-        }
+        List<GameObject> chainTargests = initialEnemy.GetComponent<Character>().GetNearFriendlies();
 
         for (int i = 0; i <= baseStats.totalChains - 1; i++)
         {
@@ -125,7 +117,7 @@ public class Fireball : MonoBehaviour
 
                 clone.target = chainTargests[i];
                 clone.totalChains = 0;
-                clone.numberOfProjectiles = 1;
+                clone.quantityMultiplier = 1;
                 clone.totalBounces = 0;
                 clone.isAutoTargeted = true;
 
@@ -168,7 +160,7 @@ public class Fireball : MonoBehaviour
                 isFirstCast = false;
             }
 
-            transform.position += finalTarget.normalized * baseStats.projectileSpeed * Time.deltaTime;
+            transform.position += finalTarget.normalized * baseStats.speed * Time.deltaTime;
 
             Debug.DrawRay(castingPos, finalTarget, Color.blue);
 
@@ -184,7 +176,7 @@ public class Fireball : MonoBehaviour
                 transform.rotation = Quaternion.LookRotation(baseStats.target.transform.position - gameObject.transform.position);
                 isFirstCast = false;
             }
-            transform.position = Vector3.MoveTowards(gameObject.transform.position, baseStats.target.transform.position, baseStats.projectileSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(gameObject.transform.position, baseStats.target.transform.position, baseStats.speed * Time.deltaTime);
         }
     }
 }

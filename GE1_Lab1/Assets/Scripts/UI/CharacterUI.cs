@@ -21,10 +21,16 @@ public class CharacterUI : MonoBehaviour
         maxHealth = gameObject.GetComponent<Character>().maxHealth;
         maxMana = gameObject.GetComponent<Character>().maxMana;
         skills = gameObject.GetComponent<PlayerSkillManager>().inventory;
+
     }
 
     public void UpdateCooldown()
     {
+        if (skills.Count == 0)
+        {
+            skills = gameObject.GetComponent<PlayerSkillManager>().inventory;
+        }
+
         for (int i = 0; i < skills.Count; i++)
         {
             if (!skills[i].CanCast())

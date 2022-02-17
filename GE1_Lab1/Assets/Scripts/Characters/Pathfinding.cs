@@ -6,48 +6,123 @@ using UnityEngine.AI;
 public class Pathfinding : MonoBehaviour
 {
     public GameObject target;
+    private Character character;
     private NavMeshAgent agent;
-    private float range = 10f;
-    private const float VIEW_OFFSET = 1f;
+    public GameObject commander;
+    private NPCSkillManager manager;
+    private float range;
     public bool targetInRange = false;
+    public List<GameObject> enemies;
 
     private void Start()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
+        character = gameObject.GetComponent<Character>();
+        manager = gameObject.GetComponent<NPCSkillManager>();
     }
 
+    private void StandBy()
+    {
+        enemies = new List<GameObject>();
+
+        enemies = character.GetNearEnemies();
+
+        if (!(enemies.Count <= 0))
+        {
+            target = enemies[Random.Range(0, enemies.Count)];
+        }
+    }
+
+    private void Follow()
+    {
+
+        Debug.DrawRay(gameObject.transform.position, commander.transform.position - gameObject.transform.position, Color.red);
+        if (Physics.Linecast(gameObject.transform.position, commander.transform.position - gameObject.transform.position))
+        {
+            agent.stoppingDistance = 0f;
+        }
+        else
+        {
+            agent.stoppingDistance = 10;
+        }
+
+        if (Vector3.Distance(gameObject.transform.position, commander.transform.position) > 10)
+        {
+            agent.SetDestination(commander.transform.position);
+        }
+        else
+        {
+            List<GameObject> enemies = commander.GetComponent<Character>().GetNearEnemies();
+
+            if (!(enemies.Count <= 0))
+            {
+                target = enemies[Random.Range(0, enemies.Count)];
+            }
+        }
+    }
+
+    public void SetCommander(GameObject commander)
+    {
+        this.commander = commander;
+    }
+
+    private void Attack()
+    {
+        if (manager.inventory[0].stats.target != target)
+        {
+            manager.inventory[0].stats.target = target;
+            range = manager.inventory[0].stats.range;
+        }
+
+        enemies = character.GetNearEnemies();
+
+        Debug.DrawRay(gameObject.transform.position, target.transform.position - gameObject.transform.position, Color.red);
+
+        if (Physics.Linecast(gameObject.transform.position, target.transform.position - gameObject.transform.position))
+        {
+            agent.stoppingDistance = 0f;
+        }
+        else
+        {
+            agent.stoppingDistance = range;
+        }
+
+        if (Vector3.Distance(gameObject.transform.position, target.transform.position) > range)
+        {
+            if (enemies.Count > 0)
+            {
+                target = enemies[Random.Range(0, enemies.Count)];
+                targetInRange = true;
+            }
+            else
+            {
+                agent.SetDestination(target.transform.position);
+                targetInRange = false;
+            }
+        }
+        else
+        {
+            targetInRange = true;
+        }
+    }
 
     void Update()
     {
         if (target)
         {
-            if (gameObject.GetComponent<NPCSkillManager>().inventory[0].stats.target != target)
+            Attack();
+        }
+        else
+        {
+            if (commander)
             {
-                gameObject.GetComponent<NPCSkillManager>().inventory[0].stats.target = target;
-            }
-
-            Vector3 viewOffset = gameObject.transform.TransformDirection(Vector3.forward) * VIEW_OFFSET;
-            Vector3 viewVector = gameObject.transform.position + viewOffset;
-            Debug.DrawRay(gameObject.transform.position + viewOffset, target.transform.position - gameObject.transform.position - viewOffset, Color.red);
-
-            if (Physics.Linecast(gameObject.transform.position, target.transform.position - gameObject.transform.position))
-            {
-                agent.stoppingDistance = 0f;
+                Follow();
             }
             else
             {
-                agent.stoppingDistance = range;
+                StandBy();
             }
-
-            if (Vector3.Distance(gameObject.transform.position, target.transform.position) > range)
-            {
-                agent.SetDestination(target.transform.position);
-                targetInRange = false;
-            }
-            else
-            {
-                targetInRange = true;
-            }
+            
         }
     }
 }
