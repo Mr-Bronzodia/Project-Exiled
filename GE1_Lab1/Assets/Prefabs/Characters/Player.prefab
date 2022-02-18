@@ -204,7 +204,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8305155604440853465}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.7, y: 3.35, z: -22.1}
   m_LocalScale: {x: 1, y: 1.76, z: 1}
   m_Children:
@@ -260,6 +260,8 @@ MonoBehaviour:
   skills:
   - {fileID: 2287459146239035337, guid: 3497f0cc91bfa854bb51b14bea1a8835, type: 3}
   - {fileID: 4575176126979766083, guid: bbe7cb49e5361f145bafb4f08f43a288, type: 3}
+  - {fileID: 402782533695486871, guid: fbf81837f34c1d241b3f6543a5060f09, type: 3}
+  - {fileID: 2985624993148568509, guid: 5c38587eb2e49a74092a9297064c92d4, type: 3}
   inventory: []
 --- !u!114 &8305155604440853447
 MonoBehaviour:
@@ -278,6 +280,10 @@ MonoBehaviour:
   manaRegenAmount: 1
   healRegenAmount: 1
   nearCharacters: []
+  charmPrefab: {fileID: 5969838070102156994, guid: 8800f74b1dbc10e429b1244a15aac08f, type: 3}
+  charmInventory: []
+  isCountering: 0
+  counterProjectileCount: 0
 --- !u!114 &8305155604440853441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1333,7 +1339,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8305155605228580121}
-  m_LocalRotation: {x: 0.36274403, y: -0.000000032068872, z: 0.000000012483026, w: 0.9318888}
+  m_LocalRotation: {x: 0.36274403, y: 0.00000003206887, z: -0.000000012483024, w: 0.9318888}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

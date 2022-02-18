@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static Charm;
 
 public class Character : MonoBehaviour
 {
@@ -21,6 +22,10 @@ public class Character : MonoBehaviour
 
     public TagManager tagManager;
 
+    public GameObject charmPrefab;
+
+    public List<CharmItem> charmInventory;
+
     public bool isCountering = false;
     public int counterProjectileCount = 0;
 
@@ -32,6 +37,13 @@ public class Character : MonoBehaviour
         currentMana = maxMana;
         nearCharacters = new List<GameObject>();
         tagManager = new TagManager(gameObject.tag);
+
+
+    }
+
+    public void AddCharm(CharmItem charm)
+    {
+        charmInventory.Add(charm);
     }
 
     private void UpdateUI()
@@ -101,12 +113,23 @@ public class Character : MonoBehaviour
         UpdateUI();
     }
 
+    private void DropCharms()
+    {
+        foreach (CharmItem charm in charmInventory)
+        {
+            GameObject charmDrop = Instantiate(charmPrefab, new Vector3(gameObject.transform.position.x + UnityEngine.Random.Range(-3,3), 1.95f, gameObject.transform.position.z + UnityEngine.Random.Range(-3, 3)), new Quaternion(0,0,0,0));
+            charmDrop.GetComponent<Charm>().SetItem(charm);
+        }
+    }
+
     private void Die()
     {
         foreach (GameObject nearChar in nearCharacters)
         {
             nearChar.GetComponent<Character>().nearCharacters.Remove(gameObject);
         }
+
+        DropCharms();
 
         Destroy(gameObject);
     }

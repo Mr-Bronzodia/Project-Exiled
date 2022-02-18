@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Floor
   - Ally
+  - Charm
   layers:
   - Default
   - TransparentFX
