@@ -19,6 +19,7 @@ public class SkillVariables
     public int totalChains;
     public bool isAutoTargeted;
     public float manaCost;
+    public float duration;
 
     public SkillVariables Clone()
     {
@@ -36,6 +37,7 @@ public class SkillVariables
         clone.totalChains = totalChains;
         clone.isAutoTargeted = isAutoTargeted;
         clone.manaCost = manaCost;
+        clone.duration = duration;
 
         return clone;
     }

@@ -359,7 +359,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5da86616c4e53b45a101ecc1a2e6a9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
 --- !u!1 &2453303407072740937
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,7 +590,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  commander: {fileID: 0}
   targetInRange: 0
+  enemies: []
 --- !u!114 &2453303407482910643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -664,11 +665,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0815634d394a19a44bd8d1f4766030d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 100
   maxMana: 0
   manaRegenAmount: 1
   healRegenAmount: 1
   nearCharacters: []
+  isCountering: 0
 --- !u!135 &2453303407482910642
 SphereCollider:
   m_ObjectHideFlags: 0

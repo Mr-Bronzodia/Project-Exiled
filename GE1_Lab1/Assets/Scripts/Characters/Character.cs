@@ -21,6 +21,8 @@ public class Character : MonoBehaviour
 
     public TagManager tagManager;
 
+    public bool isCountering = false;
+
 
     void Start()
     {
@@ -33,14 +35,14 @@ public class Character : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (gameObject.tag == "Player")
+        if (!TagManager.isNPC(gameObject.tag))
         {
             CharacterUI UI = gameObject.GetComponent<CharacterUI>();
 
             UI.UpdateHealth(currentHealth);
             UI.UpdateMana(currentMana);
         }
-        else if (gameObject.tag == "Enemy" | gameObject.tag == "Ally")
+        else if (TagManager.isNPC(gameObject.tag))
         {
             EnemyUI UI = gameObject.GetComponent<EnemyUI>();
 
@@ -160,6 +162,11 @@ public class Character : MonoBehaviour
         return enemies;
     }
 
+    public void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("hit");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (TagManager.isCharacter(other.tag) & other is CharacterController)
@@ -196,6 +203,8 @@ public class Character : MonoBehaviour
 
         };
 
+        private static List<string> npcs = new List<string>() { "Ally", "Enemy" };
+
         private static List<string> characterEntity = new List<string>() { "Player", "Ally", "Enemy" };
 
         public bool isFriendly(string tag)
@@ -225,6 +234,18 @@ public class Character : MonoBehaviour
         public static bool isCharacter(string tag)
         {
             if (characterEntity.Contains(tag))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool isNPC(string tag)
+        {
+            if (npcs.Contains(tag))
             {
                 return true;
             }

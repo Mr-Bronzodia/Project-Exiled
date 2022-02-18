@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Character;
 
 public class Fireball : MonoBehaviour
 {
@@ -64,7 +65,7 @@ public class Fireball : MonoBehaviour
 
     public void OnHitDetected(GameObject other, List<ParticleCollisionEvent> collisionEvents)
     { 
-        if (baseStats.caster.GetComponent<Character>().tagManager.isHostile(other.tag) & other.tag != "Wall")
+        if (baseStats.caster.GetComponent<Character>().tagManager.isHostile(other.tag) & TagManager.isCharacter(other.tag))
         {
             if (baseStats.isAutoTargeted)
             {
@@ -78,7 +79,7 @@ public class Fireball : MonoBehaviour
                 Impact(other);
             }
         }
-        else if (other.tag == "Wall")
+        else if (!TagManager.isNPC(other.tag))
         {
             if (currentBounce < baseStats.totalBounces)
             {
@@ -94,14 +95,23 @@ public class Fireball : MonoBehaviour
 
     private void Impact(GameObject enemy)
     {
-        enemy.GetComponent<Character>().ApplyDamage(baseStats.damage);
-
-        if (baseStats.totalChains > 0)
+        if (enemy.GetComponent<Character>().isCountering)
         {
-            Chain(enemy);
+            
+            enemy.GetComponent<Character>().isCountering = false;
+            Destroy(gameObject);
         }
+        else
+        {
+            enemy.GetComponent<Character>().ApplyDamage(baseStats.damage);
 
-        Destroy(gameObject);
+            if (baseStats.totalChains > 0)
+            {
+                Chain(enemy);
+            }
+
+            Destroy(gameObject);
+        } 
     }
 
     private void Chain(GameObject initialEnemy)

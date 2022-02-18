@@ -54,6 +54,13 @@ public class PlayerSkillManager : MonoBehaviour
                 inventory[2].Use(gameObject);
             }
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (inventory[3].CanCast())
+            {
+                inventory[3].Use(gameObject);
+            }
+        }
     }
 
     [Serializable]
@@ -88,6 +95,14 @@ public class PlayerSkillManager : MonoBehaviour
             {
                 stats = skill.GetComponent<ShadowClone>().baseStats.Clone();
                 ActiveAbility = () => skill.GetComponent<ShadowClone>().SetUp(stats);
+                nextCast = 0f;
+
+                return this;
+            }
+            else if (skill.name == "Counter")
+            {
+                stats = skill.GetComponent<Counter>().baseStats.Clone();
+                ActiveAbility = () => skill.GetComponent<Counter>().SetUp(stats);
                 nextCast = 0f;
 
                 return this;
