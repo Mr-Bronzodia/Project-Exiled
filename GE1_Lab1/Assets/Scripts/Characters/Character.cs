@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using static Charm;
 
 public class Character : MonoBehaviour
@@ -29,6 +26,8 @@ public class Character : MonoBehaviour
     public bool isCountering = false;
     public int counterProjectileCount = 0;
 
+    private bool requiresCharmsUpdate = false;
+
 
     void Start()
     {
@@ -38,12 +37,19 @@ public class Character : MonoBehaviour
         nearCharacters = new List<GameObject>();
         tagManager = new TagManager(gameObject.tag);
 
+        if (TagManager.isNPC(gameObject.tag) & Random.value > 0.8f)
+        {
+            CharmItem item = new CharmItem(1).Generate();
+            AddCharm(item);
+        }
 
+        
     }
 
     public void AddCharm(CharmItem charm)
     {
         charmInventory.Add(charm);
+        requiresCharmsUpdate = true;
     }
 
     private void UpdateUI()
@@ -74,6 +80,16 @@ public class Character : MonoBehaviour
             UpdateUI();
 
             timer = 0;
+        }
+
+        if (requiresCharmsUpdate & TagManager.isNPC(gameObject.tag))
+        {
+            foreach(CharmItem item in charmInventory)
+            {
+                item.Apply(gameObject.GetComponent<NPCSkillManager>().inventory[0]);
+            }
+
+            requiresCharmsUpdate = false;
         }
     }
 
@@ -184,11 +200,6 @@ public class Character : MonoBehaviour
             }
         }
         return enemies;
-    }
-
-    public void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("hit");
     }
 
     private void OnTriggerEnter(Collider other)

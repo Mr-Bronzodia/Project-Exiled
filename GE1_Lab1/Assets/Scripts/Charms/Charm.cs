@@ -36,7 +36,6 @@ public class Charm : MonoBehaviour
     [Serializable]
     public class CharmItem
     {
-        private System.Random rnd;
 
         public enum charmType
         {
@@ -70,13 +69,15 @@ public class Charm : MonoBehaviour
 
         public CharmItem(int level)
         {
-            rnd = new System.Random();
             this.level = level;
         }
 
-        private void Generate()
+        public CharmItem Generate()
         {
+            System.Random rnd = new System.Random(GetHashCode());
             this.type = charmTypes[rnd.Next(0, charmTypes.Count)];
+
+            return this;
         }
 
         public void Apply(InventoryManager skill)
@@ -89,7 +90,7 @@ public class Charm : MonoBehaviour
                     statistics.speed += this.level;
                     break;
                 case charmType.Spread:
-                    statistics.spread += this.level;
+                    statistics.spread -= this.level;
                     break;
                 case charmType.Damege:
                     statistics.damage += this.level;
@@ -101,7 +102,7 @@ public class Charm : MonoBehaviour
                     statistics.range += this.level;
                     break;
                 case charmType.Cooldown:
-                    statistics.cooldown -= this.level;
+                    statistics.cooldown -= this.level / 10;
                     break;
                 case charmType.Reflection:
                     statistics.totalBounces += this.level;
@@ -110,13 +111,13 @@ public class Charm : MonoBehaviour
                     statistics.totalChains += this.level;
                     break;
                 case charmType.Mana:
-                    statistics.damage -= this.level;
+                    statistics.manaCost -= this.level;
                     break;
                 case charmType.Duration:
                     statistics.duration += this.level;
                     break;
                 default:
-                    Debug.Log("Faild to apply");
+                    Debug.LogError("Faild to apply Charm");
                     break;
                  
             }
