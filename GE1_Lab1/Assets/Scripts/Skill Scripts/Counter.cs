@@ -20,6 +20,7 @@ public class Counter : MonoBehaviour
     private void Disable()
     {
         baseStats.caster.GetComponent<Character>().isCountering = false;
+        baseStats.caster.GetComponent<Character>().counterProjectileCount = 0;
         Destroy(gameObject);
     }
 
@@ -28,6 +29,7 @@ public class Counter : MonoBehaviour
         if (isFirstCast)
         {
             baseStats.caster.GetComponent<Character>().isCountering = true;
+            baseStats.caster.GetComponent<Character>().counterProjectileCount = baseStats.quantityMultiplier; 
             timer = Time.time + baseStats.duration;
             isFirstCast = false;
         }

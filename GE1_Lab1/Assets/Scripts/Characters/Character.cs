@@ -22,6 +22,7 @@ public class Character : MonoBehaviour
     public TagManager tagManager;
 
     public bool isCountering = false;
+    public int counterProjectileCount = 0;
 
 
     void Start()

@@ -95,15 +95,15 @@ public class Fireball : MonoBehaviour
 
     private void Impact(GameObject enemy)
     {
-        if (enemy.GetComponent<Character>().isCountering)
+        if (enemy.GetComponent<Character>().isCountering & enemy.GetComponent<Character>().counterProjectileCount > 0)
         {
-            
-            enemy.GetComponent<Character>().isCountering = false;
+            enemy.GetComponent<Character>().counterProjectileCount -= 1;
             Destroy(gameObject);
         }
         else
         {
             enemy.GetComponent<Character>().ApplyDamage(baseStats.damage);
+            enemy.GetComponent<Character>().isCountering = false;
 
             if (baseStats.totalChains > 0)
             {
