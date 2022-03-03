@@ -36,7 +36,6 @@ public class Charm : MonoBehaviour
     [Serializable]
     public class CharmItem
     {
-
         public enum charmType
         {
             Speed,

@@ -15,6 +15,8 @@ public class PlayerSkillManager : MonoBehaviour
 
     private CharacterUI UI;
 
+    public GameObject charmInventory;
+
 
     private void Start()
     {
@@ -52,6 +54,19 @@ public class PlayerSkillManager : MonoBehaviour
             if (inventory[2].CanCast())
             {
                 inventory[2].Use(gameObject);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            if (charmInventory.activeSelf)
+            {
+                charmInventory.SetActive(false);
+                
+            }
+            else
+            {
+                charmInventory.SetActive(true);
+                gameObject.GetComponent<CharmInventory>().Open();
             }
         }
         if (Input.GetKeyDown(KeyCode.Space))

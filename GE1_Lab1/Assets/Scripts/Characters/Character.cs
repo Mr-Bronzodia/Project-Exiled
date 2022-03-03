@@ -41,11 +41,13 @@ public class Character : MonoBehaviour
         {
             CharmItem item = new CharmItem(1).Generate();
             AddCharm(item);
-        }
-
-        
+        } 
     }
 
+    public List<CharmItem> GetCharms()
+    {
+        return charmInventory;
+    }
     public void AddCharm(CharmItem charm)
     {
         charmInventory.Add(charm);

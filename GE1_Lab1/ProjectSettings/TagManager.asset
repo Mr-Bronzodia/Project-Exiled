@@ -9,6 +9,7 @@ TagManager:
   - Floor
   - Ally
   - Charm
+  - ItemSlot
   layers:
   - Default
   - TransparentFX

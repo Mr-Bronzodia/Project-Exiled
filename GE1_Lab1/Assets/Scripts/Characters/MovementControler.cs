@@ -34,10 +34,7 @@ public class MovementControler : MonoBehaviour
 
             if (direction.magnitude >= 0.1)
             {
-                if (!gameObject.GetComponent<Character>().isCountering)
-                {
-                    controller.Move(direction * speed * Time.deltaTime);
-                }
+                controller.Move(direction * speed * Time.deltaTime);
             }
         }
 
