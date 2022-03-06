@@ -63,8 +63,23 @@ public class Charm : MonoBehaviour
             charmType.Duration
         };
 
+        private static Dictionary<charmType, string> icons = new Dictionary<charmType, string>()
+        {
+            {charmType.Spread, "CharmPlaceholder" },
+            {charmType.Speed, "CharmPlaceholder" },
+            {charmType.Damege, "CharmPlaceholder" },
+            {charmType.Quantity, "CharmPlaceholder" },
+            {charmType.Range, "CharmPlaceholder" },
+            {charmType.Cooldown, "CharmPlaceholder" },
+            {charmType.Reflection, "CharmPlaceholder" },
+            {charmType.Chains, "CharmPlaceholder" },
+            {charmType.Mana, "CharmPlaceholder" },
+            {charmType.Duration, "CharmPlaceholder" },
+        };
+
         public int level;
         public charmType type;
+        public bool WasApplied;
 
         public CharmItem(int level)
         {
@@ -77,6 +92,11 @@ public class Charm : MonoBehaviour
             this.type = charmTypes[rnd.Next(0, charmTypes.Count)];
 
             return this;
+        }
+
+        public Sprite GetIcon()
+        {
+            return Resources.Load<Sprite>(icons[this.type]);
         }
 
         public void Apply(InventoryManager skill)

@@ -66,7 +66,7 @@ public class PlayerSkillManager : MonoBehaviour
             else
             {
                 charmInventory.SetActive(true);
-                gameObject.GetComponent<CharmInventory>().Open();
+                gameObject.GetComponent<CharmInventory>().Refresh();
             }
         }
         if (Input.GetKeyDown(KeyCode.Space))

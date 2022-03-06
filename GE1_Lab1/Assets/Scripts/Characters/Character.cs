@@ -48,6 +48,17 @@ public class Character : MonoBehaviour
     {
         return charmInventory;
     }
+
+    public void RemoveCharmFromInventory(CharmItem charm)
+    {
+        charmInventory.Remove(charm);
+    }
+
+    public void AddCharmToInventory(CharmItem charm)
+    {
+        charmInventory.Add(charm);
+    }
+
     public void AddCharm(CharmItem charm)
     {
         charmInventory.Add(charm);
@@ -88,9 +99,18 @@ public class Character : MonoBehaviour
         {
             foreach(CharmItem item in charmInventory)
             {
-                item.Apply(gameObject.GetComponent<NPCSkillManager>().inventory[0]);
+                if (!item.WasApplied)
+                {
+                    item.Apply(gameObject.GetComponent<NPCSkillManager>().inventory[0]);
+                    item.WasApplied = true;
+                }  
             }
 
+            requiresCharmsUpdate = false;
+        }
+        else if (requiresCharmsUpdate & TagManager.isCharacter(gameObject.tag))
+        {
+            gameObject.GetComponentInChildren<CharmInventory>().Refresh();
             requiresCharmsUpdate = false;
         }
     }
