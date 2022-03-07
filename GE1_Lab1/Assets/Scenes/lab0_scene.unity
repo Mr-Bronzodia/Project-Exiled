@@ -6838,10 +6838,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 498c055a9e1074e42a16f2d18d04f136, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charms: []
   mergeSlots:
   - {fileID: 524462270}
   - {fileID: 2099621108}
   resultSlot: {fileID: 368642405}
+  mergeButton: {fileID: 1844124593}
+  resultCharm:
+    level: 0
+    type: 0
+    WasApplied: 0
 --- !u!1001 &1844084901
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7006,7 +7012,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.5660378, g: 0.5574938, b: 0.5574938, a: 0.25490198}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -7020,7 +7026,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1844124596}
   m_OnClick:
     m_PersistentCalls:
@@ -7518,7 +7524,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 233156101, guid: 8800f74b1dbc10e429b1244a15aac08f, type: 3}
       propertyPath: item.level
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2923914181823241532, guid: 8800f74b1dbc10e429b1244a15aac08f, type: 3}
       propertyPath: m_RootOrder
@@ -7690,11 +7696,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 233156101, guid: 8800f74b1dbc10e429b1244a15aac08f, type: 3}
       propertyPath: item.type
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 233156101, guid: 8800f74b1dbc10e429b1244a15aac08f, type: 3}
       propertyPath: item.level
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2923914181823241532, guid: 8800f74b1dbc10e429b1244a15aac08f, type: 3}
       propertyPath: m_RootOrder
@@ -8053,11 +8059,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8305155605011631521, guid: f9c640bf5b64b5547b341b64e6ce27a3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000015877596
+      value: -0.000000015877603
       objectReference: {fileID: 0}
     - target: {fileID: 8305155605011631521, guid: f9c640bf5b64b5547b341b64e6ce27a3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000006630336
+      value: 0.0000000066303394
       objectReference: {fileID: 0}
     - target: {fileID: 8305155605024582822, guid: f9c640bf5b64b5547b341b64e6ce27a3, type: 3}
       propertyPath: m_LocalRotation.y

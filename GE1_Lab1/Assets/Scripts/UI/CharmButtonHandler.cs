@@ -10,6 +10,8 @@ public class CharmButtonHandler : MonoBehaviour
 
     public GameObject MergeContext;
 
+
+    private MergeContext context;
     private Character character;
     private CharmInventory inventory;
 
@@ -17,6 +19,7 @@ public class CharmButtonHandler : MonoBehaviour
     {
         character = gameObject.GetComponentInParent<Character>();
         inventory = gameObject.GetComponentInParent<CharmInventory>();
+        context = MergeContext.GetComponent<MergeContext>();
     }
 
     public void SetData(ButtonData data)
@@ -28,6 +31,7 @@ public class CharmButtonHandler : MonoBehaviour
     {
         Debug.Log(buttonData.GetParent().name);
         Debug.Log(buttonData.GetCharm().type);
+        Debug.Log(buttonData.GetCharm().level);
     }
 
     public void SetButtons(bool state)
@@ -41,6 +45,19 @@ public class CharmButtonHandler : MonoBehaviour
         character.RemoveCharmFromInventory(buttonData.GetCharm());
 
         inventory.Refresh();
+    }
+
+    public void AddToMergeContext()
+    {
+        if (MergeContext.activeSelf)
+        {
+            context.AddCharmToMerge(buttonData.GetCharm());
+        }
+        else
+        {
+            context.OpenContext();
+            context.AddCharmToMerge(buttonData.GetCharm());
+        }
     }
 
 }
