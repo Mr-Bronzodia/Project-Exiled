@@ -6,18 +6,24 @@ using static Charm;
 
 public class MergeContext : MonoBehaviour
 {
-    public List<CharmItem> charms;
     public List<GameObject> mergeSlots;
     public GameObject resultSlot;
     public GameObject mergeButton;
 
+    private List<CharmItem> charms;
     private int nextSlotToUse;
-    public CharmItem resultCharm;
+    private CharmItem resultCharm;
+    private List<GameObject> buttonsToLock;
+    private Character character;
+
+
 
     private void Start()
     {
         charms = new List<CharmItem>();
+        buttonsToLock = new List<GameObject>();
         nextSlotToUse = 0;
+        character = gameObject.GetComponentInParent<Character>();
     }
 
     public void OpenContext()
@@ -27,15 +33,15 @@ public class MergeContext : MonoBehaviour
 
     public void CloseContext()
     {
+        ClearContext();
         gameObject.SetActive(false);
     }
 
-    public void AddCharmToMerge(CharmItem charm)
+    public void AddCharmToMerge(CharmItem charm, GameObject buttonToLock)
     {
-        if (charms.Count >= 2)
-        {
-            charms.RemoveAt(1);
-        }
+        buttonsToLock.Insert(0, buttonToLock);
+        buttonToLock.GetComponent<Button>().interactable = false;
+
 
         if (nextSlotToUse == 0)
         {
@@ -52,6 +58,15 @@ public class MergeContext : MonoBehaviour
             charms.Insert(nextSlotToUse, charm);
 
             nextSlotToUse = 0;
+        }
+
+        
+        if (charms.Count > 2)
+        {
+            charms.RemoveAt(2);
+
+            buttonsToLock[2].GetComponent<Button>().interactable = true;
+            buttonsToLock.RemoveAt(2);
         }
 
         if (charms.Count == 2)
@@ -98,7 +113,40 @@ public class MergeContext : MonoBehaviour
         {
             resultCharm = null;
             RemoveFromSlot(resultSlot);
-            mergeButton.GetComponent<Button>().interactable = true;
+            mergeButton.GetComponent<Button>().interactable = false;
         }
+    }
+
+    public void Merge()
+    {
+        character.RemoveCharmFromInventory(charms[0]);
+        character.RemoveCharmFromInventory(charms[1]);
+        character.AddCharm(resultCharm);
+        ClearContext();
+    }
+
+    private void ClearContext()
+    {
+        RemoveFromSlot(resultSlot);
+
+        foreach (GameObject slot in mergeSlots)
+        {
+            RemoveFromSlot(slot);
+        }
+
+        mergeButton.GetComponent<Button>().interactable = false;
+
+        charms.Clear();
+
+        nextSlotToUse = 0;
+
+        resultCharm = null;
+
+        foreach(GameObject button in buttonsToLock)
+        {
+            button.GetComponent<Button>().interactable = true;
+        }
+
+        buttonsToLock.Clear();
     }
 }

@@ -49,15 +49,12 @@ public class CharmButtonHandler : MonoBehaviour
 
     public void AddToMergeContext()
     {
-        if (MergeContext.activeSelf)
-        {
-            context.AddCharmToMerge(buttonData.GetCharm());
-        }
-        else
+        if (!MergeContext.activeSelf)
         {
             context.OpenContext();
-            context.AddCharmToMerge(buttonData.GetCharm());
         }
+
+        context.AddCharmToMerge(buttonData.GetCharm(), MergeButton);
     }
 
 }

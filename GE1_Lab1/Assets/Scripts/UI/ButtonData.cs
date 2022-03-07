@@ -7,7 +7,6 @@ using static Charm;
 public class ButtonData
 {
     private GameObject parent;
-    private Sprite icon;
     private CharmItem charm;
 
     public ButtonData(GameObject parent, CharmItem charm)
