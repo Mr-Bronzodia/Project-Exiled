@@ -13,6 +13,16 @@ public class ButtonData
     {
         this.parent = parent;
         this.charm = charm;
+
+        if (parent.GetComponent<HoverText>() != null)
+        {
+            SetHoverTextData(parent);
+        }
+    }
+
+    private void SetHoverTextData(GameObject parent)
+    {
+        parent.GetComponent<HoverText>().SetData(this);
     }
 
     public GameObject GetParent()

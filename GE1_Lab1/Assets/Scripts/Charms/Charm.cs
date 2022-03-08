@@ -77,6 +77,21 @@ public class Charm : MonoBehaviour
             {charmType.Duration, "CharmPlaceholder" },
         };
 
+        private static Dictionary<charmType, string> descriptinons = new Dictionary<charmType, string>() 
+        {
+            {charmType.Spread, "Decreases the spread of projectiles\nCompatible With:\nFireball" },
+            {charmType.Speed, "Increases the speed of object\nCompatible With:\nFireball\nCharacter" },
+            {charmType.Damege, "Increases The damage of object\nCompatible With:\nFireball" },
+            {charmType.Quantity, "Increases The number of objects\nCompatible With:\nFireball\nShadow Clone\nCounter" },
+            {charmType.Range, "Increases the range of object\nCompatible With:\nFireball\nDash" },
+            {charmType.Cooldown, "Decreases the cooldown of a skill\nCompatible With:\nFireball\nShadow Clone\nCounter\nDash" },
+            {charmType.Reflection, "Projectiles reflect off walls\nCompatible With:\nFireball" },
+            {charmType.Chains, "Increase number of projectiles that the initial projectile will split to\nCompatible With:\nFireball" },
+            {charmType.Mana, "Decreases the mana requiroments of a skill\nCompatible With:\nFireball\nShadow Clone\nCounter\nDash" },
+            {charmType.Duration, "Increases the duration of a skill\nCompatible With:\nCounter" },
+
+        };
+
         public int level;
         public charmType type;
         public bool WasApplied;
@@ -92,6 +107,11 @@ public class Charm : MonoBehaviour
             this.type = charmTypes[rnd.Next(0, charmTypes.Count)];
 
             return this;
+        }
+
+        public string GetDescription()
+        {
+            return descriptinons[this.type];
         }
 
         public Sprite GetIcon()
