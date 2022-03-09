@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,14 +12,34 @@ public class ToolTipHandler : MonoBehaviour
     public GameObject IconObject;
     public GameObject DescriptionObject;
 
-    public void SetTitle(string title)
+    private static Dictionary<int, string> tierColour = new Dictionary<int, string>()
     {
-        TitleObject.GetComponent<TMP_Text>().text = title;
+        {1, "#d9d9d2" },
+        {2, "#5CFF5C" },
+        {3, "#5C5CFF" },
+        {4, "#880ED4" },
+        {5, "#FFFF2E" },
+        {6, "#FFA500" },
+        {7, "#A36A00" },
+    };
+
+
+    public void SetTitle(string title, int level)
+    {
+        if (level >= 7)
+        {
+            TitleObject.GetComponent<TMP_Text>().text = String.Format("<color={0}>", tierColour[7]) + title + " </color>";
+        }
+        else
+        {
+            TitleObject.GetComponent<TMP_Text>().text = String.Format("<color={0}>", tierColour[level]) + title + " </color>";
+        }
+        
     }
 
     public void SetLevel(int level)
     {
-        LevelObject.GetComponent<TMP_Text>().text = "Level: " + level;
+        LevelObject.GetComponent<TMP_Text>().text = "<color=#323330>Level: " + level + "</color>";
     }
 
     public void SetIcon(Sprite icon)

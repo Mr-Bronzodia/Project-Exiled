@@ -79,16 +79,16 @@ public class Charm : MonoBehaviour
 
         private static Dictionary<charmType, string> descriptinons = new Dictionary<charmType, string>() 
         {
-            {charmType.Spread, "Decreases the spread of projectiles\nCompatible With:\nFireball" },
-            {charmType.Speed, "Increases the speed of object\nCompatible With:\nFireball\nCharacter" },
-            {charmType.Damege, "Increases The damage of object\nCompatible With:\nFireball" },
-            {charmType.Quantity, "Increases The number of objects\nCompatible With:\nFireball\nShadow Clone\nCounter" },
-            {charmType.Range, "Increases the range of object\nCompatible With:\nFireball\nDash" },
-            {charmType.Cooldown, "Decreases the cooldown of a skill\nCompatible With:\nFireball\nShadow Clone\nCounter\nDash" },
-            {charmType.Reflection, "Projectiles reflect off walls\nCompatible With:\nFireball" },
-            {charmType.Chains, "Increase number of projectiles that the initial projectile will split to\nCompatible With:\nFireball" },
-            {charmType.Mana, "Decreases the mana requiroments of a skill\nCompatible With:\nFireball\nShadow Clone\nCounter\nDash" },
-            {charmType.Duration, "Increases the duration of a skill\nCompatible With:\nCounter" },
+            {charmType.Spread, "<color=#000000>Decreases the spread of projectiles</color>\n<color=#323330>Affects:</color>\n<color=#EB5e34>Fireball</color>" },
+            {charmType.Speed, "<color=#000000>Increases the speed of object</color>\n<color=#323330>Affects:</color>\n<color=#eb5e34>Fireball</color>\n<color=#ebd834>Character</color>" },
+            {charmType.Damege, "<color=#000000>Increases The damage of object</color>\n<color=#323330>Affects:</color>\n<color=#eb5e34>Fireball</color>" },
+            {charmType.Quantity, "<color=#000000>Increases The number of objects</color>\n<color=#323330>Affects:</color>\n<color=#EB5E34>Fireball</color>\n<color=#545352>Shadow Clone</color>\n<color=#df1ee6>Counter</color>" },
+            {charmType.Range, "<color=#000000>Increases the range of object</color>\n<color=#323330>Affects:</color>\nFireball\n<color=#1eb4e6>Dash</color>" },
+            {charmType.Cooldown, "<color=#000000>Decreases the cooldown of a skill</color>\n<color=#323330>Affects:</color>\n<color=#eb5e34>Fireball</color>\n<color=#545352>Shadow Clone</color>\n<color=#df1ee6>Counter</color>\n<color=#1eb4e6>Dash</color>" },
+            {charmType.Reflection, "<color=#000000>Projectiles reflect off walls</color>\n<color=#323330>Affects:</color>:\n<color=#eb5e34>Fireball</color>" },
+            {charmType.Chains, "<color=#000000>Increase number of projectiles that the initial projectile will split to</color>\n<color=#323330>Affects:</color>\n<color=#eb5e34>Fireball</color>" },
+            {charmType.Mana, "<color=#000000>Decreases the mana requiroments of a skill</color>\n<color=#323330>Affects:</color>\n<color=#eb5e34>Fireball</color>\n<color=#545352>Shadow Clone</color>\n<color=#df1ee6>Counter</color>\n<color=#1eb4e6>Dash</color>" },
+            {charmType.Duration, "<color=#000000>Increases the duration of a skill</color>\n<color=#323330>Affects:</color>\n<color=#df1ee6>Counter</color>" },
 
         };
 

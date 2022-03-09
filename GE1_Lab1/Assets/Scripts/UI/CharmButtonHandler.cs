@@ -55,7 +55,6 @@ public class CharmButtonHandler : MonoBehaviour
         }
 
         ButtonData ItemToMerge = new ButtonData(MergeButton, buttonData.GetCharm());
-        Debug.Log(ItemToMerge.GetParent() + " " + ItemToMerge.GetCharm().type + " Added");
         context.AddCharmToMerge(ItemToMerge);
     }
 

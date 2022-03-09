@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static Charm;
 
 public class HoverText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -9,17 +10,28 @@ public class HoverText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private ToolTipHandler toolTip;
     private ButtonData data;
+    private RectTransform tooltipTransform;
+    private const int TooltipOffset = 10;
 
     private void Start()
     {
         toolTip = toolTipTemplate.GetComponent<ToolTipHandler>();
-        Debug.Log("Test");
+        tooltipTransform = toolTipTemplate.GetComponent<RectTransform>();
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (data != null)
         {
-            Debug.Log("Hovered over " + data.GetParent() + " with charm: " + data.GetCharm().type);
+            CharmItem charm = data.GetCharm();
+
+            toolTipTemplate.SetActive(true);
+
+            toolTipTemplate.transform.position = new Vector3(data.GetParent().transform.position.x, data.GetParent().transform.position.y - (tooltipTransform.rect.height / 2 + TooltipOffset));
+
+            toolTip.SetTitle("Charm of " + charm.type, charm.level);
+            toolTip.SetLevel(charm.level);
+            toolTip.SetIcon(charm.GetIcon());
+            toolTip.SetDescription(charm.GetDescription());
         }
     }
 
@@ -27,7 +39,7 @@ public class HoverText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         if (data != null)
         {
-            Debug.Log("Exited over " + data.GetParent());
+            toolTipTemplate.SetActive(false);
         }    
     }
 
