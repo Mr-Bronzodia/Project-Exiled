@@ -56,6 +56,8 @@ public class CharmInventory : MonoBehaviour
         slotImage.sprite = null;
         slotImage.enabled = false;
 
+        ButtonData buttonData = new ButtonData(slot, null);
+
         slot.GetComponentInChildren<Button>().enabled = false;
 
         slot.GetComponentInChildren<CharmButtonHandler>().SetButtons(false);

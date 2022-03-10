@@ -19,11 +19,10 @@ public class HoverText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         tooltipTransform = toolTipTemplate.GetComponent<RectTransform>();
     }
     public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (data != null)
+    {  
+        if (data != null & data.GetCharm() != null)
         {
             CharmItem charm = data.GetCharm();
-
             toolTipTemplate.SetActive(true);
 
             toolTipTemplate.transform.position = new Vector3(data.GetParent().transform.position.x, data.GetParent().transform.position.y - (tooltipTransform.rect.height / 2 + TooltipOffset));

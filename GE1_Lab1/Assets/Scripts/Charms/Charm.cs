@@ -161,5 +161,48 @@ public class Charm : MonoBehaviour
                  
             }
         }
+
+        public void Discharge(InventoryManager skill)
+        {
+            SkillVariables statistics = skill.stats;
+
+            switch (this.type)
+            {
+                case charmType.Speed:
+                    statistics.speed -= this.level;
+                    break;
+                case charmType.Spread:
+                    statistics.spread += this.level;
+                    break;
+                case charmType.Damege:
+                    statistics.damage -= this.level;
+                    break;
+                case charmType.Quantity:
+                    statistics.quantityMultiplier += this.level;
+                    break;
+                case charmType.Range:
+                    statistics.range -= this.level;
+                    break;
+                case charmType.Cooldown:
+                    statistics.cooldown += this.level / 10;
+                    break;
+                case charmType.Reflection:
+                    statistics.totalBounces -= this.level;
+                    break;
+                case charmType.Chains:
+                    statistics.totalChains -= this.level;
+                    break;
+                case charmType.Mana:
+                    statistics.manaCost += this.level;
+                    break;
+                case charmType.Duration:
+                    statistics.duration -= this.level;
+                    break;
+                default:
+                    Debug.LogError("Faild to discharge Charm");
+                    break;
+
+            }
+        }
     }
 }

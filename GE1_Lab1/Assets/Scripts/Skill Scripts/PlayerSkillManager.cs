@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static Charm;
 
 public class PlayerSkillManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class PlayerSkillManager : MonoBehaviour
     public List<GameObject> skills;
 
     public List<InventoryManager> inventory;
+
+    public Dictionary<InventoryManager, List<CharmItem>> appliedCharms;
 
     private Character characterStatistic;
 
@@ -24,12 +27,44 @@ public class PlayerSkillManager : MonoBehaviour
 
         UI = gameObject.GetComponent<CharacterUI>();
 
+        characterStatistic = gameObject.GetComponent<Character>();
+
+        appliedCharms = new Dictionary<InventoryManager, List<CharmItem>>();
+
         for (int i = 0; i < skills.Count; i++)
         {
             InventoryManager skill = new InventoryManager().RegisterSkill(skills[i]);
             inventory.Add(skill);
+            appliedCharms.Add(skill, new List<CharmItem>());
+        }
+
+    }
+
+    public void AddCharmToActive(InventoryManager skill, CharmItem charm)
+    {
+        if (appliedCharms[skill].Count <= 5)
+        {
+            appliedCharms[skill].Add(charm);
+            charm.Apply(skill);
+            characterStatistic.RemoveCharmFromInventory(charm);
+            gameObject.GetComponent<CharmInventory>().Refresh();
         }
     }
+
+    public void RemoveCharmFromActive(InventoryManager skill, CharmItem charm)
+    {
+        appliedCharms[skill].Remove(charm);
+        charm.Discharge(skill);
+        characterStatistic.AddCharm(charm);
+        gameObject.GetComponent<CharmInventory>().Refresh();
+    }
+
+    public Dictionary<InventoryManager, List<CharmItem>> GetAppliedCharms()
+    {
+        return appliedCharms;
+    }
+
+
 
     private void Update()
     {
@@ -86,6 +121,9 @@ public class PlayerSkillManager : MonoBehaviour
         public Action ActiveAbility;
         public float nextCast;
 
+
+        private string iconLocation;
+
         public InventoryManager RegisterSkill(GameObject skill)
         {
             this.skill = skill;
@@ -95,6 +133,7 @@ public class PlayerSkillManager : MonoBehaviour
                 stats = skill.GetComponent<Fireball>().baseStats.Clone();
                 ActiveAbility = () => skill.GetComponent<Fireball>().SetUp(stats);
                 nextCast = 0f;
+                iconLocation = "Fireball";
 
                 return this;
             }
@@ -103,6 +142,7 @@ public class PlayerSkillManager : MonoBehaviour
                 stats = skill.GetComponent<Dash>().baseStats.Clone();
                 ActiveAbility = () => skill.GetComponent<Dash>().SetUp(stats);
                 nextCast = 0f;
+                iconLocation = "Dash";
 
                 return this;
             }
@@ -111,6 +151,7 @@ public class PlayerSkillManager : MonoBehaviour
                 stats = skill.GetComponent<ShadowClone>().baseStats.Clone();
                 ActiveAbility = () => skill.GetComponent<ShadowClone>().SetUp(stats);
                 nextCast = 0f;
+                iconLocation = "ShadowClon";
 
                 return this;
             }
@@ -119,6 +160,7 @@ public class PlayerSkillManager : MonoBehaviour
                 stats = skill.GetComponent<Counter>().baseStats.Clone();
                 ActiveAbility = () => skill.GetComponent<Counter>().SetUp(stats);
                 nextCast = 0f;
+                iconLocation = "Counter";
 
                 return this;
             }
@@ -127,6 +169,11 @@ public class PlayerSkillManager : MonoBehaviour
                 Debug.LogError("Unable to assign: " + skill.name);
                 return null;
             }
+        }
+
+        public Sprite GetIcon()
+        {
+            return Resources.Load<Sprite>(iconLocation);
         }
 
         public void Use(GameObject user)

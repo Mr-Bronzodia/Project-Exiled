@@ -21,7 +21,6 @@ public class CharacterUI : MonoBehaviour
         maxHealth = gameObject.GetComponent<Character>().maxHealth;
         maxMana = gameObject.GetComponent<Character>().maxMana;
         skills = gameObject.GetComponent<PlayerSkillManager>().inventory;
-
     }
 
     public void UpdateCooldown()
@@ -29,6 +28,11 @@ public class CharacterUI : MonoBehaviour
         if (skills.Count == 0)
         {
             skills = gameObject.GetComponent<PlayerSkillManager>().inventory;
+
+            for (int i = 0; i < skills.Count; i++)
+            {
+                SkillSlots[i].GetComponent<Image>().sprite = skills[i].GetIcon();
+            }
         }
 
         for (int i = 0; i < skills.Count; i++)
