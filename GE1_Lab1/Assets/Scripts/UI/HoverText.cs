@@ -27,7 +27,7 @@ public class HoverText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
             toolTipTemplate.transform.position = new Vector3(data.GetParent().transform.position.x, data.GetParent().transform.position.y - (tooltipTransform.rect.height / 2 + TooltipOffset));
 
-            toolTip.SetTitle("Charm of " + charm.type, charm.level);
+            toolTip.SetTitle("CharmOf" + charm.type, charm.level);
             toolTip.SetLevel(charm.level);
             toolTip.SetIcon(charm.GetIcon());
             toolTip.SetDescription(charm.GetDescription());

@@ -13,13 +13,9 @@ public class CharacterUI : MonoBehaviour
 
     private List<InventoryManager> skills;
 
-    private float maxMana;
-    private float maxHealth;
 
     private void Start()
     {
-        maxHealth = gameObject.GetComponent<Character>().maxHealth;
-        maxMana = gameObject.GetComponent<Character>().maxMana;
         skills = gameObject.GetComponent<PlayerSkillManager>().inventory;
     }
 
@@ -45,12 +41,12 @@ public class CharacterUI : MonoBehaviour
         }
     }
 
-    public void UpdateHealth(float currentHealth)
+    public void UpdateHealth(float currentHealth, float maxHealth)
     {
         Health.GetComponent<Image>().fillAmount = currentHealth / maxHealth;
     }
 
-    public void UpdateMana(float currentMana)
+    public void UpdateMana(float currentMana, float maxMana)
     {
         Mana.GetComponent<Image>().fillAmount = currentMana / maxMana;
     }

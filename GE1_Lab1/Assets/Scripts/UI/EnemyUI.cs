@@ -7,17 +7,15 @@ public class EnemyUI : MonoBehaviour
 {
     public GameObject UI;
 
-    private float maxHealth;
     private Slider healthBar;
 
     private void Start()
     {
-        maxHealth = gameObject.GetComponent<Character>().maxHealth;
         healthBar = UI.GetComponentInChildren<Slider>();
         UI.SetActive(false);
     }
 
-    public void UpdateHealth(float currentHealth)
+    public void UpdateHealth(float currentHealth, float maxHealth)
     {
         if (!UI.activeInHierarchy)
         {
@@ -26,7 +24,7 @@ public class EnemyUI : MonoBehaviour
 
         healthBar.value = currentHealth / maxHealth;
 
-        if (maxHealth == currentHealth)
+        if (currentHealth == maxHealth)
         {
             UI.SetActive(false);
         }

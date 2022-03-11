@@ -4,12 +4,15 @@ using static Charm;
 
 public class Character : MonoBehaviour
 {
+    public int level;
     public float maxHealth;
-    private float currentHealth;
+    public float currentHealth;
     public float maxMana;
-    private float currentMana;
+    public float currentMana;
     public float manaRegenAmount = 0.01f;
     public float healRegenAmount = 0.01f;
+    
+    
 
     private float timer = 0;
 
@@ -32,16 +35,41 @@ public class Character : MonoBehaviour
     void Start()
     {
         Physics.IgnoreCollision(GetComponent<SphereCollider>(), GetComponent<CharacterController>());
+
+
         currentHealth = maxHealth;
         currentMana = maxMana;
+
         nearCharacters = new List<GameObject>();
         tagManager = new TagManager(gameObject.tag);
 
-        if (TagManager.isNPC(gameObject.tag) & Random.value > 0.8f)
+        if (TagManager.isNPC(gameObject.tag))
         {
-            CharmItem item = new CharmItem(1).Generate();
-            AddCharm(item);
-        } 
+            Dictionary<CharmItem.charmType, float> lootTable = CharmItem.GetLootTable();
+            int appliedCharmsCount = 0;
+
+            foreach (CharmItem.charmType charmType in CharmItem.GetAllAvailibleTypes())
+            {
+                if (Random.value > lootTable[charmType])
+                {
+                    if (appliedCharmsCount < level)
+                    {
+                        CharmItem generatedCharm = new CharmItem(Random.Range(level, level + 1));
+                        generatedCharm.type = charmType;
+                        AddCharm(generatedCharm);
+                        appliedCharmsCount++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    
+                }
+            }
+        }
+
+        
+
     }
 
     public List<CharmItem> GetCharms()
@@ -54,31 +82,27 @@ public class Character : MonoBehaviour
         charmInventory.Remove(charm);
     }
 
-    public void AddCharmToInventory(CharmItem charm)
-    {
-        charmInventory.Add(charm);
-    }
-
     public void AddCharm(CharmItem charm)
     {
         charmInventory.Add(charm);
+        charm.SetOwner(this);
         requiresCharmsUpdate = true;
     }
 
     private void UpdateUI()
     {
-        if (!TagManager.isNPC(gameObject.tag))
+        if (TagManager.isPlayer(gameObject.tag))
         {
             CharacterUI UI = gameObject.GetComponent<CharacterUI>();
 
-            UI.UpdateHealth(currentHealth);
-            UI.UpdateMana(currentMana);
+            UI.UpdateHealth(currentHealth, maxHealth);
+            UI.UpdateMana(currentMana, maxMana);
         }
         else if (TagManager.isNPC(gameObject.tag))
         {
             EnemyUI UI = gameObject.GetComponent<EnemyUI>();
 
-            UI.UpdateHealth(currentHealth);
+            UI.UpdateHealth(currentHealth, maxHealth);
         }
     }
 
@@ -264,6 +288,8 @@ public class Character : MonoBehaviour
 
         private static List<string> characterEntity = new List<string>() { "Player", "Ally", "Enemy" };
 
+        private static List<string> player = new List<string>() { "Player" };
+
         public bool isFriendly(string tag)
         {
             if (friendlyTags[selfTag].Contains(tag))
@@ -303,6 +329,18 @@ public class Character : MonoBehaviour
         public static bool isNPC(string tag)
         {
             if (npcs.Contains(tag))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool isPlayer(string tag)
+        {
+            if (player.Contains(tag))
             {
                 return true;
             }

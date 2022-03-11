@@ -6,7 +6,6 @@ using UnityEngine;
 [Serializable]
 public class SkillVariables
 {
-
     public int range;
     public GameObject caster;
     public GameObject target;

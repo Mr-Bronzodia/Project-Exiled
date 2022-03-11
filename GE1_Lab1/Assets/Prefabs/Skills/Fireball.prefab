@@ -4855,7 +4855,7 @@ MonoBehaviour:
     caster: {fileID: 0}
     target: {fileID: 0}
     speed: 20
-    damage: 10
+    damage: 33
     cooldown: 3
     quantityMultiplier: 1
     spread: 20
@@ -4863,6 +4863,7 @@ MonoBehaviour:
     totalChains: 0
     isAutoTargeted: 0
     manaCost: 10
+    duration: 0
 --- !u!1 &2287459146245232035
 GameObject:
   m_ObjectHideFlags: 0

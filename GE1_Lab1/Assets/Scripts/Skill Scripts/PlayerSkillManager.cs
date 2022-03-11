@@ -12,7 +12,7 @@ public class PlayerSkillManager : MonoBehaviour
 
     public List<InventoryManager> inventory;
 
-    public Dictionary<InventoryManager, List<CharmItem>> appliedCharms;
+    private Dictionary<InventoryManager, List<CharmItem>> appliedCharms;
 
     private Character characterStatistic;
 
@@ -37,6 +37,9 @@ public class PlayerSkillManager : MonoBehaviour
             inventory.Add(skill);
             appliedCharms.Add(skill, new List<CharmItem>());
         }
+
+        InventoryManager character = new InventoryManager().RegisterSkill(gameObject);
+        appliedCharms.Add(character, new List<CharmItem>());
 
     }
 
@@ -161,6 +164,16 @@ public class PlayerSkillManager : MonoBehaviour
                 ActiveAbility = () => skill.GetComponent<Counter>().SetUp(stats);
                 nextCast = 0f;
                 iconLocation = "Counter";
+
+                return this;
+            }
+            else if (skill.name == "Player")
+            {
+                stats = null;
+                ActiveAbility = null;
+                nextCast = 0f;
+                iconLocation = "Character";
+                //Debug.Log("Lole");
 
                 return this;
             }

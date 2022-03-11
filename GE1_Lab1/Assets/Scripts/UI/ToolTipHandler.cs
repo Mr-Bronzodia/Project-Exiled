@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 public class ToolTipHandler : MonoBehaviour
 {
@@ -26,13 +27,21 @@ public class ToolTipHandler : MonoBehaviour
 
     public void SetTitle(string title, int level)
     {
+        Regex r = new Regex(@"
+                (?<=[A-Z])(?=[A-Z][a-z]) |
+                 (?<=[^A-Z])(?=[A-Z]) |
+                 (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace);
+
+
+        string readyTitle = r.Replace(title, " ");
+
         if (level >= 7)
         {
-            TitleObject.GetComponent<TMP_Text>().text = String.Format("<color={0}>", tierColour[7]) + title + " </color>";
+            TitleObject.GetComponent<TMP_Text>().text = String.Format("<color={0}>", tierColour[7]) + readyTitle + " </color>";
         }
         else
         {
-            TitleObject.GetComponent<TMP_Text>().text = String.Format("<color={0}>", tierColour[level]) + title + " </color>";
+            TitleObject.GetComponent<TMP_Text>().text = String.Format("<color={0}>", tierColour[level]) + readyTitle + " </color>";
         }
         
     }
