@@ -7,7 +7,20 @@ public class MovementControler : MonoBehaviour
     public CharacterController controller;
 
     private float speed = 6f;
+
+    public LayerMask groundLayer;
+
+    private Character character;
+
     public Vector3 LookPoint { private set; get; }
+
+    private Animator animator;
+
+    private void Start()
+    {
+        character = gameObject.GetComponent<Character>();
+        animator = gameObject.GetComponentInChildren<Animator>();
+    }
 
     void Update()   
     {
@@ -18,25 +31,32 @@ public class MovementControler : MonoBehaviour
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
         Vector3 mouseInput = new Vector3(horizontal, 0f, vertical);
 
-        var mouseVelocity = mouseInput;
+        AimAtMouse();
 
-        Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-
-        float rayLenght;
-
-        if (groundPlane.Raycast(mouseRay, out rayLenght))
+        if (direction.magnitude >= 0.1)
         {
-            Vector3 pointToLook = mouseRay.GetPoint(rayLenght);
-            LookPoint = new Vector3(pointToLook.x, transform.position.y, pointToLook.z);
-
-            transform.LookAt(LookPoint);
-
-            if (direction.magnitude >= 0.1)
-            {
-                controller.Move(direction * speed * Time.deltaTime);
-            }
+            controller.Move(direction * character.speed * Time.deltaTime);
         }
 
+        float velocirtZ = Vector3.Dot(direction.normalized, transform.forward);
+        float velocirtX = Vector3.Dot(direction.normalized, transform.right);
+
+        animator.SetFloat("VelocityZ", velocirtZ, 0.1f, Time.deltaTime);
+        animator.SetFloat("VelocityX", velocirtX, 0.1f, Time.deltaTime);
     }
+
+    private void AimAtMouse()
+    {
+        Ray cameraToGroundRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(cameraToGroundRay, out var hit, Mathf.Infinity, groundLayer))
+        {
+            Vector3 direction = hit.point - transform.position;
+            direction.y = 0f;
+            direction.Normalize();
+
+            transform.forward = direction;
+        }
+    }
+
 }

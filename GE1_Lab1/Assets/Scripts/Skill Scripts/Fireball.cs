@@ -10,7 +10,7 @@ public class Fireball : MonoBehaviour
     private Vector3 castingPos;
     private bool isFirstCast = true;
     private Vector3 targetLocation;
-    private const int OFFSET = 2;
+    private const int OFFSET = 10;
     private float totalSpread;
     private Vector3 finalTarget;
     private int currentBounce = 0;

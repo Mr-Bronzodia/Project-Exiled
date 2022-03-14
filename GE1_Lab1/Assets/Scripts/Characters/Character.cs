@@ -11,6 +11,7 @@ public class Character : MonoBehaviour
     public float currentMana;
     public float manaRegenAmount = 0.01f;
     public float healRegenAmount = 0.01f;
+    public float speed;
     
     
 

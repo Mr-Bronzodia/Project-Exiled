@@ -92,7 +92,7 @@ public class Charm : MonoBehaviour
             {charmType.Mana, "CharmPlaceholder" },
         };
 
-        private static Dictionary<charmType, string> descriptinons = new Dictionary<charmType, string>() 
+        private static Dictionary<charmType, string> descriptinons = new Dictionary<charmType, string>()
         {
             {charmType.Spread, "<color=#000000>Decreases the spread of projectiles</color>\n<color=#323330>Affects:</color>\n<color=#EB5e34>Fireball</color>" },
             {charmType.Speed, "<color=#000000>Increases the speed of object</color>\n<color=#323330>Affects:</color>\n<color=#eb5e34>Fireball</color>\n<color=#ebd834>Character</color>" },
@@ -109,7 +109,7 @@ public class Charm : MonoBehaviour
 
         };
 
-        private static Dictionary<charmType, float> lootTable = new Dictionary<charmType, float>() 
+        private static Dictionary<charmType, float> lootTable = new Dictionary<charmType, float>()
         {
             {charmType.Health, 0.2f },
             {charmType.Damege, 0.5f  },
@@ -181,7 +181,7 @@ public class Charm : MonoBehaviour
             {
                 case charmType.Speed:
                     statistics.speed += this.level;
-                    
+
                     break;
                 case charmType.Spread:
                     statistics.spread -= this.level;
@@ -205,7 +205,7 @@ public class Charm : MonoBehaviour
                     {
                         statistics.cooldown = 0.5f;
                     }
-                    
+
                     break;
                 case charmType.Reflection:
                     statistics.totalBounces += this.level;
@@ -230,13 +230,13 @@ public class Charm : MonoBehaviour
                 default:
                     Debug.LogError("Faild to apply Charm");
                     break;
-                 
+
             }
 
             if (statistics != null)
             {
                 statistics.manaCost += level * 1.8f;
-            } 
+            }
         }
 
         public void Discharge(InventoryManager skill)
