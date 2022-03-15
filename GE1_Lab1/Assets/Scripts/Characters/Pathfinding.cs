@@ -10,15 +10,24 @@ public class Pathfinding : MonoBehaviour
     private NavMeshAgent agent;
     public GameObject commander;
     private NPCSkillManager manager;
+    private Animator animator;
     private float range;
     public bool targetInRange = false;
     public List<GameObject> enemies;
+    public LayerMask groundLayer;
+
+    private Vector3 lastPosition;
+    private int navPriority;
+    private CharacterController controller;
 
     private void Start()
     {
         agent = gameObject.GetComponent<NavMeshAgent>();
         character = gameObject.GetComponent<Character>();
         manager = gameObject.GetComponent<NPCSkillManager>();
+        animator = gameObject.GetComponentInChildren<Animator>();
+        lastPosition = gameObject.transform.position;
+        controller = gameObject.GetComponent<CharacterController>();
     }
 
     private void StandBy()
@@ -37,21 +46,43 @@ public class Pathfinding : MonoBehaviour
     {
 
         Debug.DrawRay(gameObject.transform.position, commander.transform.position - gameObject.transform.position, Color.red);
-        if (Physics.Linecast(gameObject.transform.position, commander.transform.position - gameObject.transform.position))
+        range = manager.inventory[0].stats.range;
+        if (Physics.Linecast(gameObject.transform.position, commander.transform.position - gameObject.transform.position, groundLayer))
         {
-            agent.stoppingDistance = 0f;
+            agent.stoppingDistance = 0.5f;
         }
         else
         {
-            agent.stoppingDistance = 10;
+            agent.stoppingDistance = range;
         }
 
-        if (Vector3.Distance(gameObject.transform.position, commander.transform.position) > 10)
+        float distanceToCommander = Vector3.Distance(gameObject.transform.position, commander.transform.position);
+
+        if (distanceToCommander > range)
         {
-            agent.SetDestination(commander.transform.position);
+            agent.isStopped = false;
+
+            if (!agent.pathPending)
+            {
+                if (agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                    {
+                        Debug.Log("New path started");
+                        Random.InitState((int)System.DateTime.Now.Ticks);
+                        agent.SetDestination(new Vector3(commander.transform.position.x + Random.Range(-range, range), commander.transform.position.y, commander.transform.position.z + Random.Range(-range, range)));
+                        agent.avoidancePriority = navPriority;
+                        
+                    }
+                }
+            }
         }
         else
         {
+            agent.isStopped = true;
+            agent.avoidancePriority = 99;
+
+
             List<GameObject> enemies = commander.GetComponent<Character>().GetNearEnemies();
 
             if (!(enemies.Count <= 0))
@@ -61,9 +92,10 @@ public class Pathfinding : MonoBehaviour
         }
     }
 
-    public void SetCommander(GameObject commander)
+    public void SetCommander(GameObject commander, int priority)
     {
         this.commander = commander;
+        navPriority = priority;
     }
 
     private void Attack()
@@ -78,16 +110,16 @@ public class Pathfinding : MonoBehaviour
 
         Debug.DrawRay(gameObject.transform.position, target.transform.position - gameObject.transform.position, Color.red);
 
-        if (Physics.Linecast(gameObject.transform.position, target.transform.position - gameObject.transform.position))
+        if (Physics.Linecast(gameObject.transform.position, target.transform.position - gameObject.transform.position, groundLayer))
         {
-            agent.stoppingDistance = 0f;
+            agent.stoppingDistance = 2f;
         }
         else
         {
             agent.stoppingDistance = range;
         }
 
-        if (Vector3.Distance(gameObject.transform.position, target.transform.position) > range)
+        if (Vector3.Distance(gameObject.transform.position, target.transform.position) > (range * 0.6))
         {
             if (enemies.Count > 0)
             {
@@ -106,8 +138,28 @@ public class Pathfinding : MonoBehaviour
         }
     }
 
+    private void CalculateAnimation(Vector3 lastPosition)
+    {
+        float velocirtZ = Vector3.Dot(lastPosition.normalized, transform.forward);
+        float velocirtX = Vector3.Dot(lastPosition.normalized, transform.right);
+
+
+        if (velocirtZ < 1f | velocirtX < 1f)
+        {
+            animator.SetFloat("VelocityZ", velocirtZ, 0.1f, Time.deltaTime);
+            animator.SetFloat("VelocityX", velocirtX, 0.1f, Time.deltaTime);
+        }
+    }
+
     void Update()
     {
+
+        Vector3 currentPosition = gameObject.transform.position;
+        Vector3 moveDirection = currentPosition - lastPosition;
+        CalculateAnimation(moveDirection);
+        lastPosition = currentPosition;
+
+
         if (target)
         {
             Attack();

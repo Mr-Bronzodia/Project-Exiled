@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e7d4c886bb906a4a94db7110d910889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4931530933116483549, guid: f08b294c40218ab4bab0e59e22cd8949, type: 3}
+  prefab: {fileID: 2615389696863498838, guid: 0c2d09a66479ef5438fcb777a44295bf, type: 3}
   baseStats:
     range: 0
     caster: {fileID: 0}
@@ -57,3 +57,4 @@ MonoBehaviour:
     totalChains: 0
     isAutoTargeted: 0
     manaCost: 30
+    duration: 0

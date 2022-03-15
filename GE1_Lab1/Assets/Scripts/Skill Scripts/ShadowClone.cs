@@ -26,9 +26,9 @@ public class ShadowClone : MonoBehaviour
         for (int i = 0; i < baseStats.quantityMultiplier; i++)
         {
             GameObject clone = Instantiate(prefab,
-                                           new Vector3(baseStats.caster.transform.position.x + Random.Range(-4, 4), baseStats.caster.transform.position.y, baseStats.caster.transform.position.z + Random.Range(-4, 4)),
+                                           new Vector3(baseStats.caster.transform.position.x + Random.Range(-10, 10), baseStats.caster.transform.position.y, baseStats.caster.transform.position.z + Random.Range(-10, 10)),
                                            baseStats.caster.transform.rotation);
-            clone.GetComponent<Pathfinding>().SetCommander(baseStats.caster);
+            clone.GetComponent<Pathfinding>().SetCommander(baseStats.caster, i);
 
             clones.Add(clone);
         }

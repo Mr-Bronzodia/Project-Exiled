@@ -10,7 +10,7 @@ public class Fireball : MonoBehaviour
     private Vector3 castingPos;
     private bool isFirstCast = true;
     private Vector3 targetLocation;
-    private const int OFFSET = 10;
+    private const int OFFSET = 2;
     private float totalSpread;
     private Vector3 finalTarget;
     private int currentBounce = 0;
@@ -29,7 +29,7 @@ public class Fireball : MonoBehaviour
         {
             for (int i = 1; i <= stats.quantityMultiplier; i++)
             {
-                GameObject skill = Instantiate(gameObject, stats.caster.transform.position + castingOffset, stats.caster.transform.rotation);
+                GameObject skill = Instantiate(gameObject, new Vector3(stats.caster.transform.position.x, stats.caster.transform.position.y + 1, stats.caster.transform.position.z) + castingOffset, stats.caster.transform.rotation);
                 skill.GetComponent<Fireball>().SetStats(stats);
 
                 skill.transform.rotation *= Quaternion.Euler(0, -(totalSpread / 2) + (stats.spread * i), 0);
@@ -37,7 +37,7 @@ public class Fireball : MonoBehaviour
         }
         else if (stats.quantityMultiplier == 1)
         {
-            GameObject skill = Instantiate(gameObject, stats.caster.transform.position + castingOffset, stats.caster.transform.rotation);
+            GameObject skill = Instantiate(gameObject, new Vector3(stats.caster.transform.position.x, stats.caster.transform.position.y + 1, stats.caster.transform.position.z) + castingOffset + castingOffset, stats.caster.transform.rotation);
             skill.GetComponent<Fireball>().SetStats(stats);
         }
 
