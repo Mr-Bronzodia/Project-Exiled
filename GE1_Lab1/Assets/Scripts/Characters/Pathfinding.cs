@@ -11,7 +11,7 @@ public class Pathfinding : MonoBehaviour
     public GameObject commander;
     private NPCSkillManager manager;
     private Animator animator;
-    private float range;
+    public float range;
     public bool targetInRange = false;
     public List<GameObject> enemies;
     public LayerMask groundLayer;
@@ -68,7 +68,6 @@ public class Pathfinding : MonoBehaviour
                 {
                     if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
                     {
-                        Debug.Log("New path started");
                         Random.InitState((int)System.DateTime.Now.Ticks);
                         agent.SetDestination(new Vector3(commander.transform.position.x + Random.Range(-range, range), commander.transform.position.y, commander.transform.position.z + Random.Range(-range, range)));
                         agent.avoidancePriority = navPriority;
@@ -103,15 +102,16 @@ public class Pathfinding : MonoBehaviour
         if (manager.inventory[0].stats.target != target)
         {
             manager.inventory[0].stats.target = target;
-            range = manager.inventory[0].stats.range;
+            range = (float)manager.inventory[0].stats.range * 0.9f;
         }
 
         enemies = character.GetNearEnemies();
 
         Debug.DrawRay(gameObject.transform.position, target.transform.position - gameObject.transform.position, Color.red);
 
-        if (Physics.Linecast(gameObject.transform.position, target.transform.position - gameObject.transform.position, groundLayer))
+        if (Physics.Linecast(gameObject.transform.position, target.transform.position - gameObject.transform.position, out var hit,1 << groundLayer))
         {
+            Debug.Log(hit.collider.name);
             agent.stoppingDistance = 2f;
         }
         else
@@ -119,7 +119,7 @@ public class Pathfinding : MonoBehaviour
             agent.stoppingDistance = range;
         }
 
-        if (Vector3.Distance(gameObject.transform.position, target.transform.position) > (range * 0.6))
+        if (Vector3.Distance(gameObject.transform.position, target.transform.position) > range)
         {
             if (enemies.Count > 0)
             {
@@ -128,6 +128,7 @@ public class Pathfinding : MonoBehaviour
             }
             else
             {
+                agent.isStopped = false;
                 agent.SetDestination(target.transform.position);
                 targetInRange = false;
             }

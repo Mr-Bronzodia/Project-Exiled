@@ -28,7 +28,10 @@ public class Dash : MonoBehaviour
         else
         {
             movmentControler.Move(baseStats.caster.transform.TransformDirection(Vector3.forward) * (ray.distance * 0.9f));
+
         }
+
+
 
         Destroy(gameObject);
     }

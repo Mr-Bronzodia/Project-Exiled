@@ -117,6 +117,7 @@ public class Fireball : MonoBehaviour
     private void Chain(GameObject initialEnemy)
     {
         List<GameObject> chainTargests = initialEnemy.GetComponent<Character>().GetNearFriendlies();
+        
 
         for (int i = 0; i <= baseStats.totalChains - 1; i++)
         {
@@ -131,8 +132,10 @@ public class Fireball : MonoBehaviour
                 clone.totalBounces = 0;
                 clone.isAutoTargeted = true;
 
-                SetUpAutoTarget(clone, initialEnemy.transform.position);
+                //SetUpAutoTarget(clone, initialEnemy.transform.position);
+                SetUpAutoTarget(clone, new Vector3(initialEnemy.transform.position.x, initialEnemy.transform.position.y + 1, initialEnemy.transform.position.z));
             }
+
         }
     }
 

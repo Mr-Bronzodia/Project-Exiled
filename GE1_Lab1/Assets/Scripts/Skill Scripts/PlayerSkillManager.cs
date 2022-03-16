@@ -20,6 +20,8 @@ public class PlayerSkillManager : MonoBehaviour
 
     public GameObject charmInventory;
 
+    private Animator animator;
+
 
     private void Start()
     {
@@ -28,6 +30,8 @@ public class PlayerSkillManager : MonoBehaviour
         UI = gameObject.GetComponent<CharacterUI>();
 
         characterStatistic = gameObject.GetComponent<Character>();
+
+        animator = gameObject.GetComponentInChildren<Animator>();
 
         appliedCharms = new Dictionary<InventoryManager, List<CharmItem>>();
 
@@ -67,8 +71,6 @@ public class PlayerSkillManager : MonoBehaviour
         return appliedCharms;
     }
 
-
-
     private void Update()
     {
         UI.UpdateCooldown();
@@ -77,21 +79,21 @@ public class PlayerSkillManager : MonoBehaviour
         {
             if (inventory[0].CanCast())
             {
-                inventory[0].Use(gameObject);
+                inventory[0].OnCastBegin(gameObject, animator);
             }
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (inventory[1].CanCast())
             {
-                inventory[1].Use(gameObject);
+                inventory[1].OnCastBegin(gameObject, animator);
             }
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
             if (inventory[2].CanCast())
             {
-                inventory[2].Use(gameObject);
+                inventory[2].OnCastBegin(gameObject, animator);
             }
         }
         if (Input.GetKeyDown(KeyCode.I))
@@ -111,7 +113,7 @@ public class PlayerSkillManager : MonoBehaviour
         {
             if (inventory[3].CanCast())
             {
-                inventory[3].Use(gameObject);
+                inventory[3].OnCastBegin(gameObject, animator);
             }
         }
     }
@@ -123,6 +125,7 @@ public class PlayerSkillManager : MonoBehaviour
         public SkillVariables stats;
         public Action ActiveAbility;
         public float nextCast;
+        private string animationTrigger;
 
 
         private string iconLocation;
@@ -137,6 +140,7 @@ public class PlayerSkillManager : MonoBehaviour
                 ActiveAbility = () => skill.GetComponent<Fireball>().SetUp(stats);
                 nextCast = 0f;
                 iconLocation = "Fireball";
+                animationTrigger = "Fireball Trigger";
 
                 return this;
             }
@@ -146,6 +150,7 @@ public class PlayerSkillManager : MonoBehaviour
                 ActiveAbility = () => skill.GetComponent<Dash>().SetUp(stats);
                 nextCast = 0f;
                 iconLocation = "Dash";
+                animationTrigger = "Fireball Trigger";
 
                 return this;
             }
@@ -155,6 +160,7 @@ public class PlayerSkillManager : MonoBehaviour
                 ActiveAbility = () => skill.GetComponent<ShadowClone>().SetUp(stats);
                 nextCast = 0f;
                 iconLocation = "ShadowClon";
+                animationTrigger = "Fireball Trigger";
 
                 return this;
             }
@@ -164,6 +170,7 @@ public class PlayerSkillManager : MonoBehaviour
                 ActiveAbility = () => skill.GetComponent<Counter>().SetUp(stats);
                 nextCast = 0f;
                 iconLocation = "Counter";
+                animationTrigger = "Fireball Trigger";
 
                 return this;
             }
@@ -173,7 +180,7 @@ public class PlayerSkillManager : MonoBehaviour
                 ActiveAbility = null;
                 nextCast = 0f;
                 iconLocation = "Character";
-                //Debug.Log("Lole");
+                animationTrigger = null;
 
                 return this;
             }
@@ -189,12 +196,15 @@ public class PlayerSkillManager : MonoBehaviour
             return Resources.Load<Sprite>(iconLocation);
         }
 
-        public void Use(GameObject user)
+        public void OnCastBegin(GameObject user, Animator animator)
         {
             stats.caster = user;
-            ActiveAbility();
+            user.GetComponentInChildren<CastTriggers>().SetSkill(this);
+            animator.SetTrigger(animationTrigger);
             nextCast = Time.time + stats.cooldown;
         }
+
+
 
         public bool CanCast()
         {
