@@ -31,6 +31,7 @@ public class Character : MonoBehaviour
     public int counterProjectileCount = 0;
 
     private bool requiresCharmsUpdate = false;
+    private Animator animator;
 
 
     void Start()
@@ -43,6 +44,7 @@ public class Character : MonoBehaviour
 
         nearCharacters = new List<GameObject>();
         tagManager = new TagManager(gameObject.tag);
+        animator = gameObject.GetComponentInChildren<Animator>();
 
         if (TagManager.isNPC(gameObject.tag))
         {
@@ -168,12 +170,19 @@ public class Character : MonoBehaviour
     {
         currentHealth -= damage;
 
+        animator.SetTrigger("Take Damage Trigger");
+
         if (currentHealth <= 0)
         {
-            Die();
+            OnDieBegin();
         }
 
         UpdateUI();
+    }
+
+    public void OnDieBegin()
+    {
+        animator.SetTrigger("Die Trigger");
     }
 
     private void DropCharms()
@@ -185,7 +194,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
         foreach (GameObject nearChar in nearCharacters)
         {

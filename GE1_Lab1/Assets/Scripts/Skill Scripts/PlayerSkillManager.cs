@@ -150,7 +150,7 @@ public class PlayerSkillManager : MonoBehaviour
                 ActiveAbility = () => skill.GetComponent<Dash>().SetUp(stats);
                 nextCast = 0f;
                 iconLocation = "Dash";
-                animationTrigger = "Fireball Trigger";
+                animationTrigger = "Dash Trigger";
 
                 return this;
             }
@@ -160,7 +160,7 @@ public class PlayerSkillManager : MonoBehaviour
                 ActiveAbility = () => skill.GetComponent<ShadowClone>().SetUp(stats);
                 nextCast = 0f;
                 iconLocation = "ShadowClon";
-                animationTrigger = "Fireball Trigger";
+                animationTrigger = "Shadow Clone Trigger";
 
                 return this;
             }
@@ -170,7 +170,7 @@ public class PlayerSkillManager : MonoBehaviour
                 ActiveAbility = () => skill.GetComponent<Counter>().SetUp(stats);
                 nextCast = 0f;
                 iconLocation = "Counter";
-                animationTrigger = "Fireball Trigger";
+                animationTrigger = "Block Trigger";
 
                 return this;
             }

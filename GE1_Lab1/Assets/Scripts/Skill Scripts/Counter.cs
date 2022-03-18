@@ -6,6 +6,7 @@ public class Counter : MonoBehaviour
 {
     public SkillVariables baseStats;
 
+    private Animator animator;
     private bool isFirstCast = true;
     public float timer = 0f;
 
@@ -13,7 +14,7 @@ public class Counter : MonoBehaviour
     public void SetUp(SkillVariables stats)
     {
         GameObject skill = Instantiate(gameObject, stats.caster.transform.position, stats.caster.transform.rotation);
-
+        animator = stats.caster.GetComponentInChildren<Animator>();
         skill.GetComponent<Counter>().baseStats = stats;
     }
 

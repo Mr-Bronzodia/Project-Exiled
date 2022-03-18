@@ -18,7 +18,9 @@ public class Pathfinding : MonoBehaviour
 
     private Vector3 lastPosition;
     private int navPriority;
-    private CharacterController controller;
+    private float movementMagnitude;
+
+
 
     private void Start()
     {
@@ -27,7 +29,6 @@ public class Pathfinding : MonoBehaviour
         manager = gameObject.GetComponent<NPCSkillManager>();
         animator = gameObject.GetComponentInChildren<Animator>();
         lastPosition = gameObject.transform.position;
-        controller = gameObject.GetComponent<CharacterController>();
     }
 
     private void StandBy()
@@ -150,13 +151,29 @@ public class Pathfinding : MonoBehaviour
             animator.SetFloat("VelocityZ", velocirtZ, 0.1f, Time.deltaTime);
             animator.SetFloat("VelocityX", velocirtX, 0.1f, Time.deltaTime);
         }
+
+
+        AnimationClip currentClip = animator.GetCurrentAnimatorClipInfo(0)[0].clip;
+
+        if (currentClip.name == "Fast Run" | currentClip.name == "Idle" | currentClip.name == "Left Strafe" | currentClip.name == "Right Strafe" | currentClip.name == "Running Backward")
+        {
+
+            if (movementMagnitude > 0.05f)
+            {
+                float speedMultiplier = (movementMagnitude * Time.deltaTime) / (currentClip.length * currentClip.frameRate);
+                animator.SetFloat("Speed Multiplier", speedMultiplier >= 0.05f ? speedMultiplier : 1f, 0.1f, Time.deltaTime);
+            }
+
+        }
+
     }
 
     void Update()
     {
-
+        agent.speed = character.speed;
         Vector3 currentPosition = gameObject.transform.position;
         Vector3 moveDirection = currentPosition - lastPosition;
+        movementMagnitude = moveDirection.magnitude;
         CalculateAnimation(moveDirection);
         lastPosition = currentPosition;
 

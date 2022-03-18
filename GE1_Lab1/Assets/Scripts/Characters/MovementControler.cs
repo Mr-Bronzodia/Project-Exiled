@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class MovementControler : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class MovementControler : MonoBehaviour
         animator = gameObject.GetComponentInChildren<Animator>();
     }
 
-    void Update()   
+    void Update()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -43,6 +44,20 @@ public class MovementControler : MonoBehaviour
 
         animator.SetFloat("VelocityZ", velocirtZ, 0.1f, Time.deltaTime);
         animator.SetFloat("VelocityX", velocirtX, 0.1f, Time.deltaTime);
+
+
+        AnimationClip currentClip = animator.GetCurrentAnimatorClipInfo(0)[0].clip;
+
+        if (currentClip.name == "Fast Run" | currentClip.name == "Idle" | currentClip.name == "Left Strafe" | currentClip.name == "Right Strafe" | currentClip.name == "Running Backward")
+        {
+            if (controller.velocity.magnitude > 0.05f)
+            {
+                float speedMultiplier = controller.velocity.magnitude / (currentClip.length * currentClip.frameRate);
+                animator.SetFloat("Speed Multiplier", speedMultiplier >= 0.05f ? speedMultiplier : 1f, 0.1f, Time.deltaTime);
+            }
+            
+        }
+
     }
 
     private void AimAtMouse()

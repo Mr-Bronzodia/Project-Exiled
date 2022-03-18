@@ -1,2 +1,15 @@
 Delete Icon: https://icons8.com/icon/81432/close
 Merge Icon: https://icons8.com/icon/81035/merge
+Movement Aniation : https://www.mixamo.com Locomotion pack
+Running Backward Animation: https://www.mixamo.com Running Backward
+Fireball Casting Animation : https://www.mixamo.com Two Handed Casting Spell Fowards
+Shadow Clone Casting Animation: https://www.mixamo.com Standing 2H Magic Area Attack 02
+Dash casting Animation: https://www.mixamo.com Jumping
+Taking Damage Animation: https://www.mixamo.com Reaction
+Dying Animation: https://www.mixamo.com Die
+Counter Animation: https://www.mixamo.com Block
+Character, Textures, materials for player and shadow clone: https://www.mixamo.com Ganfaul M Aure
+Character, Textures, materials for enemy00: https://www.mixamo.com Maw J Laygo
+Character, Textures, materials for enemy01: https://www.mixamo.com Nightshade J Friedrich
+Character, Textures, materials for enemy02: https://www.mixamo.com Vampire A Lusth
+Character, Textures, materials for enemy03: https://www.mixamo.com Warrok W Kurniawan
