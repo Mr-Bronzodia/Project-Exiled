@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 using static Character;
+
 
 public class Fireball : MonoBehaviour
 {
@@ -19,6 +21,7 @@ public class Fireball : MonoBehaviour
 
     public void SetUp(SkillVariables stats)
     {
+
         stats.caster.gameObject.GetComponent<Character>().UseMana(stats.manaCost);
 
         Vector3 castingOffset = stats.caster.transform.TransformDirection(Vector3.forward) * OFFSET;
@@ -31,9 +34,9 @@ public class Fireball : MonoBehaviour
             {
                 GameObject skill = Instantiate(gameObject, new Vector3(stats.caster.transform.position.x, stats.caster.transform.position.y + 1, stats.caster.transform.position.z) + castingOffset, stats.caster.transform.rotation);
                 skill.GetComponent<Fireball>().SetStats(stats);
-
                 skill.transform.rotation *= Quaternion.Euler(0, -(totalSpread / 2) + (stats.spread * i), 0);
             }
+
         }
         else if (stats.quantityMultiplier == 1)
         {
@@ -62,9 +65,8 @@ public class Fireball : MonoBehaviour
     {
         return baseStats;
     }
-
-    public void OnHitDetected(GameObject other, List<ParticleCollisionEvent> collisionEvents)
-    { 
+    public void OnHitDetected(GameObject other, Collision collisionEvent)
+    {
         if (baseStats.caster.GetComponent<Character>().tagManager.isHostile(other.tag) & TagManager.isCharacter(other.tag))
         {
             if (baseStats.isAutoTargeted)
@@ -72,7 +74,7 @@ public class Fireball : MonoBehaviour
                 if (other == baseStats.target)
                 {
                     Impact(other);
-                } 
+                }
             }
             else
             {
@@ -83,13 +85,13 @@ public class Fireball : MonoBehaviour
         {
             if (currentBounce < baseStats.totalBounces)
             {
-                Bounce(collisionEvents[0]);
+                Bounce(collisionEvent);
             }
             else
             {
                 Destroy(gameObject);
             }
-            
+
         }
     }
 
@@ -140,14 +142,14 @@ public class Fireball : MonoBehaviour
     }
 
 
-    private void Bounce(ParticleCollisionEvent collisionEvent)
+    private void Bounce(Collision collisionEvent)
     {
-        Vector3 newTarget = Vector3.Reflect(finalTarget, collisionEvent.normal);
+        Vector3 newTarget = Vector3.Reflect(finalTarget, collisionEvent.contacts[0].normal);
         newTarget = Vector3.ClampMagnitude(newTarget, baseStats.range);
         transform.rotation = Quaternion.LookRotation(newTarget);
         transform.position += Vector3.ClampMagnitude(newTarget, 2);
         finalTarget = newTarget;
-        castingPos = collisionEvent.intersection;
+        castingPos = collisionEvent.contacts[0].point;
         currentBounce++;
     }
 
@@ -181,6 +183,7 @@ public class Fireball : MonoBehaviour
             {
                 Destroy(gameObject);
             }
+
         }
         else
         {

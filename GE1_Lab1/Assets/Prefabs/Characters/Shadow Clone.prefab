@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skills:
-  - {fileID: 2287459146239035337, guid: 3497f0cc91bfa854bb51b14bea1a8835, type: 3}
+  - {fileID: 7267279885183500138, guid: c51fb4b194ff3ac4a99bcafbd753efbd, type: 3}
   inventory: []
 --- !u!114 &-3903543335083206240
 MonoBehaviour:

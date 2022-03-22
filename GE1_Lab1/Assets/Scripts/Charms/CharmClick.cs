@@ -10,6 +10,5 @@ public class CharmClick : MonoBehaviour
         {
             gameObject.GetComponentInParent<Charm>().PickUp(other.gameObject);
         }
-
     }
 }
