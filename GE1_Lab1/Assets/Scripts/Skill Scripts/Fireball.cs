@@ -12,7 +12,7 @@ public class Fireball : MonoBehaviour
     private Vector3 castingPos;
     private bool isFirstCast = true;
     private Vector3 targetLocation;
-    private const int OFFSET = 2;
+    private const float OFFSET = 1.5f;
     private float totalSpread;
     private Vector3 finalTarget;
     private int currentBounce = 0;
@@ -36,6 +36,8 @@ public class Fireball : MonoBehaviour
                 skill.GetComponent<Fireball>().SetStats(stats);
                 skill.transform.rotation *= Quaternion.Euler(0, -(totalSpread / 2) + (stats.spread * i), 0);
             }
+
+            
 
         }
         else if (stats.quantityMultiplier == 1)

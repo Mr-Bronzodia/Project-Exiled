@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7267279885183500138
+--- !u!1 &9024123205490086285
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,13 +8,13 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3223059792657157844}
-  - component: {fileID: 4594279943406034617}
-  - component: {fileID: 2447595010901080693}
-  - component: {fileID: 3925557133296619850}
-  - component: {fileID: 474975927008783156}
-  - component: {fileID: -9143576088411597948}
-  - component: {fileID: 7472584236912088937}
+  - component: {fileID: 7619378154722999761}
+  - component: {fileID: 2090602660230835935}
+  - component: {fileID: 284899981598151324}
+  - component: {fileID: 9172347317484560106}
+  - component: {fileID: 4306719256473718994}
+  - component: {fileID: 1298961952229759426}
+  - component: {fileID: 3031524134523510957}
   m_Layer: 8
   m_Name: Fireball
   m_TagString: Untagged
@@ -22,31 +22,31 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3223059792657157844
+--- !u!4 &7619378154722999761
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7267279885183500138}
+  m_GameObject: {fileID: 9024123205490086285}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.63, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!2083052967 &4594279943406034617
+--- !u!2083052967 &2090602660230835935
 VisualEffect:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7267279885183500138}
+  m_GameObject: {fileID: 9024123205490086285}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: bb76dbd5b0196fc4eb9704d0e53d89ff, type: 3}
+  m_Asset: {fileID: 8926484042661614526, guid: 9d8bd4c6cf4f3184a97dc973eb3f903c, type: 3}
   m_InitialEventName: OnPlay
-  m_InitialEventNameOverriden: 1
+  m_InitialEventNameOverriden: 0
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
   m_ResourceVersion: 1
@@ -58,7 +58,10 @@ VisualEffect:
     m_Vector3f:
       m_Array: []
     m_Vector4f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 41.030704, y: 7.3038955, z: 3.8667681, w: 1}
+        m_Name: Main Colour
+        m_Overridden: 0
     m_Uint:
       m_Array: []
     m_Int:
@@ -70,16 +73,19 @@ VisualEffect:
     m_Gradient:
       m_Array: []
     m_NamedObject:
-      m_Array: []
+      m_Array:
+      - m_Value: {fileID: 2800000, guid: 288e1ef965d316e4e9519eda6faba163, type: 3}
+        m_Name: Main Texture
+        m_Overridden: 0
     m_Bool:
       m_Array: []
---- !u!73398921 &2447595010901080693
+--- !u!73398921 &284899981598151324
 VFXRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7267279885183500138}
+  m_GameObject: {fileID: 9024123205490086285}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -115,33 +121,33 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &3925557133296619850
+--- !u!135 &9172347317484560106
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7267279885183500138}
+  m_GameObject: {fileID: 9024123205490086285}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.24
+  m_Radius: 0.38
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &474975927008783156
+--- !u!114 &4306719256473718994
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7267279885183500138}
+  m_GameObject: {fileID: 9024123205490086285}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1efcc54d99266a14abad8460779f1d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats:
-    range: 10
+    range: 15
     caster: {fileID: 0}
     target: {fileID: 0}
     speed: 20
@@ -154,25 +160,25 @@ MonoBehaviour:
     isAutoTargeted: 0
     manaCost: 10
     duration: 0
---- !u!114 &-9143576088411597948
+--- !u!114 &1298961952229759426
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7267279885183500138}
+  m_GameObject: {fileID: 9024123205490086285}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8946d3b8477a72148b1f620184c19058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!54 &7472584236912088937
+--- !u!54 &3031524134523510957
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7267279885183500138}
+  m_GameObject: {fileID: 9024123205490086285}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
