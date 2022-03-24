@@ -166,8 +166,8 @@ public class PlayerSkillManager : MonoBehaviour
             }
             else if (skill.name == "Counter")
             {
-                stats = skill.GetComponent<Counter>().baseStats.Clone();
-                ActiveAbility = () => skill.GetComponent<Counter>().SetUp(stats);
+                stats = skill.GetComponent<Shield>().baseStats.Clone();
+                ActiveAbility = () => skill.GetComponent<Shield>().SetUp(stats);
                 nextCast = 0f;
                 iconLocation = "Counter";
                 animationTrigger = "Block Trigger";

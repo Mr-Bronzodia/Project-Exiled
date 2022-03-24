@@ -17,6 +17,9 @@ public class Fireball : MonoBehaviour
     private Vector3 finalTarget;
     private int currentBounce = 0;
 
+    public GameObject OnImpactDecal;
+    public GameObject OnImpactBlood;
+
 
 
     public void SetUp(SkillVariables stats)
@@ -75,16 +78,17 @@ public class Fireball : MonoBehaviour
             {
                 if (other == baseStats.target)
                 {
-                    Impact(other);
+                    Impact(other, collisionEvent);
                 }
             }
             else
             {
-                Impact(other);
+                Impact(other, collisionEvent);
             }
         }
         else if (!TagManager.isNPC(other.tag))
         {
+            GameObject impactFlash = Instantiate(OnImpactDecal, collisionEvent.contacts[0].point + Vector3.ClampMagnitude(collisionEvent.contacts[0].normal, 0.1f), Quaternion.FromToRotation(Vector3.forward, collisionEvent.contacts[0].normal));
             if (currentBounce < baseStats.totalBounces)
             {
                 Bounce(collisionEvent);
@@ -97,7 +101,7 @@ public class Fireball : MonoBehaviour
         }
     }
 
-    private void Impact(GameObject enemy)
+    private void Impact(GameObject enemy, Collision collision)
     {
         if (enemy.GetComponent<Character>().isCountering & enemy.GetComponent<Character>().counterProjectileCount > 0)
         {
@@ -107,6 +111,8 @@ public class Fireball : MonoBehaviour
         else
         {
             enemy.GetComponent<Character>().ApplyDamage(baseStats.damage);
+            GameObject bloodImpact = Instantiate(OnImpactBlood, collision.contacts[0].point + Vector3.ClampMagnitude(collision.contacts[0].normal, 0.1f), Quaternion.FromToRotation(Vector3.forward, collision.contacts[0].normal));
+            GameObject impactFlash = Instantiate(OnImpactDecal, collision.contacts[0].point + Vector3.ClampMagnitude(collision.contacts[0].normal, 0.1f), Quaternion.FromToRotation(Vector3.forward, collision.contacts[0].normal));
             enemy.GetComponent<Character>().isCountering = false;
 
             if (baseStats.totalChains > 0)
@@ -121,7 +127,7 @@ public class Fireball : MonoBehaviour
     private void Chain(GameObject initialEnemy)
     {
         List<GameObject> chainTargests = initialEnemy.GetComponent<Character>().GetNearFriendlies();
-        
+
 
         for (int i = 0; i <= baseStats.totalChains - 1; i++)
         {

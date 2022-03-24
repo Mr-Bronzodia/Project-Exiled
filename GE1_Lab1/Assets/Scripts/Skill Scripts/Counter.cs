@@ -5,6 +5,7 @@ using UnityEngine;
 public class Counter : MonoBehaviour
 {
     public SkillVariables baseStats;
+    public GameObject shieldObject;
 
     private Animator animator;
     private bool isFirstCast = true;
