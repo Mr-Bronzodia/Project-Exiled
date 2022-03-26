@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4575176126979766083}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.2309508, y: 8.221398, z: -23.609657}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -44,15 +44,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseStats:
-    range: 10
+    range: 20
     caster: {fileID: 0}
     target: {fileID: 0}
-    projectileSpeed: 100
+    speed: 0
     damage: 0
     cooldown: 3
-    numberOfProjectiles: 0
+    quantityMultiplier: 0
     spread: 0
     totalBounces: 0
     totalChains: 0
     isAutoTargeted: 0
     manaCost: 30
+    duration: 0
+  smokePrefab: {fileID: 3547688960354379321, guid: bcf6dbab4db81a249b2d3d81daa64a18, type: 3}

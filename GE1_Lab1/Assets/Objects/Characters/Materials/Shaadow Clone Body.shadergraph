@@ -830,7 +830,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Power",
     "m_StageCapability": 3,
-    "m_Value": 0.5,
+    "m_Value": 0.20000000298023225,
     "m_DefaultValue": 1.0,
     "m_Labels": []
 }
@@ -1547,7 +1547,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "CellDensity",
     "m_StageCapability": 3,
-    "m_Value": 6.699999809265137,
+    "m_Value": 4.0,
     "m_DefaultValue": 5.0,
     "m_Labels": []
 }
@@ -1563,7 +1563,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "e00": 1.0,
+        "e00": 0.699999988079071,
         "e01": 2.0,
         "e02": 2.0,
         "e03": 2.0,

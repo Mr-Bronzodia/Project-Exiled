@@ -58,3 +58,4 @@ MonoBehaviour:
     isAutoTargeted: 0
     manaCost: 30
     duration: 0
+  lightningPrefabl: {fileID: 5154813603337869009, guid: 1b1e7325efefdad4eb90a5c21a18c061, type: 3}
