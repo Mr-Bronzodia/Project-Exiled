@@ -25,6 +25,8 @@ public class MovementControler : MonoBehaviour
 
     void Update()
     {
+        controller.Move(Physics.gravity * Time.deltaTime);
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
