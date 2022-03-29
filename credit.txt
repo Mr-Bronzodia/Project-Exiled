@@ -13,3 +13,10 @@ Character, Textures, materials for enemy00: https://www.mixamo.com Maw J Laygo
 Character, Textures, materials for enemy01: https://www.mixamo.com Nightshade J Friedrich
 Character, Textures, materials for enemy02: https://www.mixamo.com Vampire A Lusth
 Character, Textures, materials for enemy03: https://www.mixamo.com Warrok W Kurniawan
+Player Spawn Environment : https://assetstore.unity.com/packages/3d/environments/fantasy/blacksmith-s-forge-17785
+Fireball Flying Sound : https://freesound.org/people/quedicemipez/sounds/522705/
+Fireball Impact Sound : https://freesound.org/people/EminYILDIRIM/sounds/577450/
+Shadow Shield Sound : https://freesound.org/people/cabled_mess/sounds/351450/
+Shadow Shield Impact Sound : https://freesound.org/people/Metzik/sounds/459782/
+Shadow Clone Spawn Sound: https://freesound.org/people/InspectorJ/sounds/360328/
+ 

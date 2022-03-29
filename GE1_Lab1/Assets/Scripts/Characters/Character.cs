@@ -32,6 +32,7 @@ public class Character : MonoBehaviour
 
     private bool requiresCharmsUpdate = false;
     private Animator animator;
+    private bool isDying = false;
 
 
     void Start()
@@ -41,6 +42,7 @@ public class Character : MonoBehaviour
 
         currentHealth = maxHealth;
         currentMana = maxMana;
+
 
         nearCharacters = new List<GameObject>();
         tagManager = new TagManager(gameObject.tag);
@@ -103,6 +105,12 @@ public class Character : MonoBehaviour
         }
         else if (TagManager.isNPC(gameObject.tag))
         {
+
+            if (isDying)
+            {
+                return;
+            }
+
             EnemyUI UI = gameObject.GetComponent<EnemyUI>();
 
             UI.UpdateHealth(currentHealth, maxHealth);
@@ -168,6 +176,11 @@ public class Character : MonoBehaviour
 
     public void ApplyDamage(float damage)
     {
+        if (isDying)
+        {
+            return;
+        }
+
         currentHealth -= damage;
 
         animator.SetTrigger("Take Damage Trigger");
@@ -182,6 +195,7 @@ public class Character : MonoBehaviour
 
     public void OnDieBegin()
     {
+        isDying = true;
         animator.SetTrigger("Die Trigger");
     }
 
