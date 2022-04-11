@@ -17,10 +17,13 @@ public class MovementControler : MonoBehaviour
 
     private Animator animator;
 
+    private AudioManager audioManager;
+
     private void Start()
     {
         character = gameObject.GetComponent<Character>();
         animator = gameObject.GetComponentInChildren<Animator>();
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     void Update()
@@ -39,6 +42,11 @@ public class MovementControler : MonoBehaviour
         if (direction.magnitude >= 0.1)
         {
             controller.Move(direction * character.speed * Time.deltaTime);
+            audioManager.Play("Run", gameObject);
+        }
+        else
+        {
+            audioManager.Stop("Run", gameObject);
         }
 
         float velocirtZ = Vector3.Dot(direction.normalized, transform.forward);

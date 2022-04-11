@@ -19,6 +19,7 @@ public class Pathfinding : MonoBehaviour
     private Vector3 lastPosition;
     private int navPriority;
     private float movementMagnitude;
+    private AudioManager audioManager;
 
 
 
@@ -29,6 +30,7 @@ public class Pathfinding : MonoBehaviour
         manager = gameObject.GetComponent<NPCSkillManager>();
         animator = gameObject.GetComponentInChildren<Animator>();
         lastPosition = gameObject.transform.position;
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     private void StandBy()
@@ -162,6 +164,11 @@ public class Pathfinding : MonoBehaviour
             {
                 float speedMultiplier = (movementMagnitude * Time.deltaTime) / (currentClip.length * currentClip.frameRate);
                 animator.SetFloat("Speed Multiplier", speedMultiplier >= 0.05f ? speedMultiplier : 1f, 0.1f, Time.deltaTime);
+                audioManager.Play("Run", gameObject, 1f);
+            }
+            else
+            {
+                audioManager.Stop("Run", gameObject);
             }
 
         }
