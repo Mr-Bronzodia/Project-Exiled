@@ -23,14 +23,12 @@ public class AudioManager : MonoBehaviour
         {
             if(playingSound.clip.name == s.clip.name & currentSounds.Length != 0)
             {
-                Debug.Log("E");
                 return;
             }
         }
 
         AudioSource newSource = source.AddComponent<AudioSource>();
 
-        Debug.Log("C");
         newSource.clip = s.clip;
         newSource.volume = s.volume;
         newSource.pitch = s.pich;
@@ -65,14 +63,12 @@ public class AudioManager : MonoBehaviour
         {
             if (playingSound.clip.name == s.clip.name & currentSounds.Length != 0)
             {
-                Debug.Log("E");
                 return;
             }
         }
 
         AudioSource newSource = source.AddComponent<AudioSource>();
 
-        Debug.Log("C");
         newSource.clip = s.clip;
         newSource.volume = volume;
         newSource.pitch = s.pich;

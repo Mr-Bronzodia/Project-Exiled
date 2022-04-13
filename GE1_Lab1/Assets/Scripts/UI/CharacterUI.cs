@@ -1,13 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static PlayerSkillManager;
+using TMPro;
 
 public class CharacterUI : MonoBehaviour
 {
     public GameObject Health;
     public GameObject Mana;
+
+    public GameObject HealthText;
+    public GameObject ManaText;
+
 
     public List<GameObject> SkillSlots;
 
@@ -44,10 +50,12 @@ public class CharacterUI : MonoBehaviour
     public void UpdateHealth(float currentHealth, float maxHealth)
     {
         Health.GetComponent<Image>().fillAmount = currentHealth / maxHealth;
+        HealthText.GetComponent<TMP_Text>().text = String.Format("{0}/{1}", currentHealth, maxHealth);
     }
 
     public void UpdateMana(float currentMana, float maxMana)
     {
         Mana.GetComponent<Image>().fillAmount = currentMana / maxMana;
+        ManaText.GetComponent<TMP_Text>().text = String.Format("{0}/{1}", currentMana, maxMana);
     }
 }

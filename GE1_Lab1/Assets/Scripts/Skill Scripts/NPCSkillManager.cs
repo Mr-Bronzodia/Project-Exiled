@@ -8,11 +8,13 @@ public class NPCSkillManager : MonoBehaviour
     public List<GameObject> skills;
     public List<InventoryManager> inventory;
     private Animator animator;
+    private AudioManager audioManager;
 
     private void Start()
     {
         inventory = new List<InventoryManager>();
         animator = gameObject.GetComponentInChildren<Animator>();
+        audioManager = FindObjectOfType<AudioManager>();
 
         for (int i = 0; i < skills.Count; i++)
         {
@@ -28,7 +30,7 @@ public class NPCSkillManager : MonoBehaviour
             if (inventory[0].CanCast())
             {
                 gameObject.transform.LookAt(inventory[0].stats.target.transform.position);
-                inventory[0].OnCastBegin(gameObject, animator);
+                inventory[0].OnCastBegin(gameObject, animator, audioManager);
             }
 
         }

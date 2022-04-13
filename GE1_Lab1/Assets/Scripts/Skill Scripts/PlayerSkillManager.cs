@@ -22,6 +22,8 @@ public class PlayerSkillManager : MonoBehaviour
 
     private Animator animator;
 
+    private AudioManager audioManager;
+
 
     private void Start()
     {
@@ -32,6 +34,8 @@ public class PlayerSkillManager : MonoBehaviour
         characterStatistic = gameObject.GetComponent<Character>();
 
         animator = gameObject.GetComponentInChildren<Animator>();
+
+        audioManager = FindObjectOfType<AudioManager>();
 
         appliedCharms = new Dictionary<InventoryManager, List<CharmItem>>();
 
@@ -79,21 +83,21 @@ public class PlayerSkillManager : MonoBehaviour
         {
             if (inventory[0].CanCast())
             {
-                inventory[0].OnCastBegin(gameObject, animator);
+                inventory[0].OnCastBegin(gameObject, animator, audioManager);
             }
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (inventory[1].CanCast())
             {
-                inventory[1].OnCastBegin(gameObject, animator);
+                inventory[1].OnCastBegin(gameObject, animator, audioManager);
             }
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
             if (inventory[2].CanCast())
             {
-                inventory[2].OnCastBegin(gameObject, animator);
+                inventory[2].OnCastBegin(gameObject, animator, audioManager);
             }
         }
         if (Input.GetKeyDown(KeyCode.I))
@@ -113,7 +117,7 @@ public class PlayerSkillManager : MonoBehaviour
         {
             if (inventory[3].CanCast())
             {
-                inventory[3].OnCastBegin(gameObject, animator);
+                inventory[3].OnCastBegin(gameObject, animator, audioManager);
             }
         }
     }
@@ -126,6 +130,7 @@ public class PlayerSkillManager : MonoBehaviour
         public Action ActiveAbility;
         public float nextCast;
         private string animationTrigger;
+        private List<string> castSound;
 
 
         private string iconLocation;
@@ -141,6 +146,7 @@ public class PlayerSkillManager : MonoBehaviour
                 nextCast = 0f;
                 iconLocation = "Fireball";
                 animationTrigger = "Fireball Trigger";
+                castSound = new List<string>() { "Fireball0", "Fireball1" };
 
                 return this;
             }
@@ -151,6 +157,7 @@ public class PlayerSkillManager : MonoBehaviour
                 nextCast = 0f;
                 iconLocation = "Dash";
                 animationTrigger = "Dash Trigger";
+                castSound = new List<string>() { "Dash" };
 
                 return this;
             }
@@ -161,6 +168,7 @@ public class PlayerSkillManager : MonoBehaviour
                 nextCast = 0f;
                 iconLocation = "ShadowClon";
                 animationTrigger = "Shadow Clone Trigger";
+                castSound = new List<string>() { "Shadow Clone" };
 
                 return this;
             }
@@ -171,15 +179,17 @@ public class PlayerSkillManager : MonoBehaviour
                 nextCast = 0f;
                 iconLocation = "Counter";
                 animationTrigger = "Block Trigger";
+                castSound = null;
 
                 return this;
             }
             else if (skill.name == "Player")
             {
-                stats = null;
+                stats = new SkillVariables();
                 ActiveAbility = null;
                 nextCast = 0f;
                 iconLocation = "Character";
+                castSound = null;
                 animationTrigger = null;
 
                 return this;
@@ -196,12 +206,19 @@ public class PlayerSkillManager : MonoBehaviour
             return Resources.Load<Sprite>(iconLocation);
         }
 
-        public void OnCastBegin(GameObject user, Animator animator)
+        public void OnCastBegin(GameObject user, Animator animator, AudioManager audioManager)
         {
             stats.caster = user;
             user.GetComponentInChildren<CastTriggers>().SetSkill(this);
             animator.SetTrigger(animationTrigger);
             nextCast = Time.time + stats.cooldown;
+
+            
+
+            if (castSound != null)
+            {
+                audioManager.Play(castSound[UnityEngine.Random.Range(0, castSound.Count)], user);
+            }
         }
 
 

@@ -17,10 +17,8 @@ public class RemoveButtonControler : MonoBehaviour
 
     public void onCilck()
     {
-        Debug.Log("pre if");
         if (data != null)
         {
-            Debug.Log("Removed");
             gameObject.GetComponentInParent<PlayerSkillManager>().RemoveCharmFromActive(SkillContextControler.GetCurrentContext(), data.GetCharm());
             SkillContextControler.RefreshContext();
         }

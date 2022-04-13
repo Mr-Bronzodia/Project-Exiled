@@ -95,7 +95,7 @@ public class Charm : MonoBehaviour
         private static Dictionary<charmType, string> descriptinons = new Dictionary<charmType, string>()
         {
             {charmType.Spread, "<color=#000000>Decreases the spread of projectiles</color>\n<color=#323330>Affects:</color>\n<color=#EB5e34>Fireball</color>" },
-            {charmType.Speed, "<color=#000000>Increases the speed of object</color>\n<color=#323330>Affects:</color>\n<color=#eb5e34>Fireball</color>\n<color=#ebd834>Character</color>" },
+            {charmType.Speed, "<color=#000000>Increases the speed of object</color>\n<color=#323330>Affects:</color>\n<color=#eb5e34>Fireball</color>" },
             {charmType.Damege, "<color=#000000>Increases The damage of object</color>\n<color=#323330>Affects:</color>\n<color=#eb5e34>Fireball</color>" },
             {charmType.Quantity, "<color=#000000>Increases The number of objects</color>\n<color=#323330>Affects:</color>\n<color=#EB5E34>Fireball</color>\n<color=#545352>Shadow Clone</color>\n<color=#df1ee6>Counter</color>" },
             {charmType.Range, "<color=#000000>Increases the range of object</color>\n<color=#323330>Affects:</color>\nFireball\n<color=#1eb4e6>Dash</color>" },
@@ -177,11 +177,11 @@ public class Charm : MonoBehaviour
         {
             SkillVariables statistics = skill.stats;
 
+
             switch (this.type)
             {
                 case charmType.Speed:
                     statistics.speed += this.level;
-
                     break;
                 case charmType.Spread:
                     statistics.spread -= this.level;

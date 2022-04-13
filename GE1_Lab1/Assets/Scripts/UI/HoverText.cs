@@ -20,7 +20,13 @@ public class HoverText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     }
     public void OnPointerEnter(PointerEventData eventData)
     {  
-        if (data != null & data.GetCharm() != null)
+
+        if(data == null)
+        {
+            return;
+        }
+
+        if (data.GetCharm() != null)
         {
             CharmItem charm = data.GetCharm();
             toolTipTemplate.SetActive(true);
