@@ -161,6 +161,17 @@ public class PlayerSkillManager : MonoBehaviour
 
                 return this;
             }
+            else if (skill.name == "Fireball Harmless")
+            {
+                stats = skill.GetComponent<Fireball>().baseStats.Clone();
+                ActiveAbility = () => skill.GetComponent<Fireball>().SetUp(stats);
+                nextCast = 0f;
+                iconLocation = "Fireball";
+                animationTrigger = "Fireball Trigger";
+                castSound = new List<string>() { "Fireball0", "Fireball1" };
+
+                return this;
+            }
             else if (skill.name == "Shadow Clone")
             {
                 stats = skill.GetComponent<ShadowClone>().baseStats.Clone();
