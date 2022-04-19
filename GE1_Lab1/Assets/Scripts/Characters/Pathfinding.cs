@@ -20,6 +20,7 @@ public class Pathfinding : MonoBehaviour
     private int navPriority;
     private float movementMagnitude;
     private AudioManager audioManager;
+    private CharacterController controller;
 
 
 
@@ -31,6 +32,7 @@ public class Pathfinding : MonoBehaviour
         animator = gameObject.GetComponentInChildren<Animator>();
         lastPosition = gameObject.transform.position;
         audioManager = FindObjectOfType<AudioManager>();
+        controller = gameObject.GetComponent<CharacterController>();
     }
 
     private void StandBy()
@@ -177,6 +179,8 @@ public class Pathfinding : MonoBehaviour
 
     void Update()
     {
+        controller.Move(Physics.gravity * Time.deltaTime);
+
         agent.speed = character.speed;
         Vector3 currentPosition = gameObject.transform.position;
         Vector3 moveDirection = currentPosition - lastPosition;
