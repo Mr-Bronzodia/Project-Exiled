@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 136397860403507302}
   m_Layer: 0
   m_Name: PF Conifer Bare BOTD URP
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -293,7 +293,7 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 23309444090733188}
-  - screenRelativeHeight: 0.4935635
+  - screenRelativeHeight: 0.35400015
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 227004396696467460}
