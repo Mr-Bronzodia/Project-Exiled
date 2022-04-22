@@ -12,8 +12,9 @@ public class Character : MonoBehaviour
     public float manaRegenAmount = 0.01f;
     public float healRegenAmount = 0.01f;
     public float speed;
-    
-    
+
+    public GameObject PlayerPrefab;
+    public GameObject SpawnLocation;
 
     private float timer = 0;
 
@@ -195,8 +196,19 @@ public class Character : MonoBehaviour
 
     public void OnDieBegin()
     {
-        isDying = true;
-        animator.SetTrigger("Die Trigger");
+        if (TagManager.isNPC(gameObject.tag))
+        {
+            gameObject.GetComponent<Pathfinding>().targetInRange = false;
+            gameObject.GetComponent<Pathfinding>().enabled = false;
+            animator.SetTrigger("Die Trigger");
+        }
+        else if (TagManager.isPlayer(gameObject.tag))
+        {
+            gameObject.transform.position = SpawnLocation.transform.position;
+            currentHealth = 1;
+            currentMana = 1;
+        }
+        
     }
 
     private void DropCharms()
