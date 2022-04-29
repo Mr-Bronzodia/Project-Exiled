@@ -198,6 +198,7 @@ public class Character : MonoBehaviour
     {
         if (TagManager.isNPC(gameObject.tag))
         {
+            isDying = true;
             gameObject.GetComponent<Pathfinding>().targetInRange = false;
             gameObject.GetComponent<Pathfinding>().enabled = false;
             animator.SetTrigger("Die Trigger");

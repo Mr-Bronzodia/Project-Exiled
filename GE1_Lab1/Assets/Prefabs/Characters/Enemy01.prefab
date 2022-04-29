@@ -160,7 +160,7 @@ MonoBehaviour:
   maxMana: 0
   currentMana: 0
   manaRegenAmount: 1
-  healRegenAmount: 1
+  healRegenAmount: 0.3
   speed: 6
   PlayerPrefab: {fileID: 0}
   SpawnLocation: {fileID: 0}
