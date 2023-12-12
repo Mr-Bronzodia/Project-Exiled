@@ -1,6 +1,8 @@
 # Overview 
 Project Exile is a 3D isometric ARPG that draws inspiration from games such as Path of Exile and Diablo. In this game, you have to eliminate enemies in arena like map. As you progress through the game, defeated enemies drop charms, which can be inserted into your skills to modify their effects. You can also enhance charms by combining two charms of the same level to make them even more powerful.
 
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/OdnZwF3qkng/0.jpg)](http://www.youtube.com/watch?v=OdnZwF3qkng)
+
 # Main Features
 ## Multiple Abilities
 ### Fireball
